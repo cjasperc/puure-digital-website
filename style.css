@@ -2531,24 +2531,19 @@ body {
 }
 .pricing__heading-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 48px;
+  text-align: center;
+  gap: 12px;
   margin-top: 16px;
   margin-bottom: 48px;
-  flex-wrap: wrap;
 }
 .pricing__heading-row .section-h2 { margin: 0; }
 .pricing__heading-sub {
   font-size: 15px;
   line-height: 1.7;
   color: rgba(255,255,255,0.5);
-  max-width: 280px;
-  flex-shrink: 0;
-}
-@media (max-width: 768px) {
-  .pricing__heading-row { flex-direction: column; align-items: center; text-align: center; }
-  .pricing__heading-sub { text-align: center; }
+  max-width: 380px;
 }
 .pricing__em {
   font-family: 'Cormorant Garamond', serif;
