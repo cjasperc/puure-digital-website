@@ -2723,7 +2723,7 @@ body {
 }
 .pricing__amount {
   font-size: 44px;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--white);
   line-height: 1;
   transition: opacity 0.2s;
