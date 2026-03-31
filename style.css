@@ -2419,7 +2419,8 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: var(--teal);
+  color: #5ee8d8;
+  text-shadow: 0 0 18px rgba(94,232,216,0.55), 0 0 40px rgba(94,232,216,0.25);
 }
 .team__grid {
   display: flex;
@@ -2549,7 +2550,8 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: var(--teal);
+  color: #5ee8d8;
+  text-shadow: 0 0 18px rgba(94,232,216,0.55), 0 0 40px rgba(94,232,216,0.25);
 }
 
 /* Animated BG blob */
