@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puure Digital — Digital Marketing Agency Norwich | Lead Generation Norwich</title>
+  <meta name="description" content="Puure Digital is Norwich's specialist digital marketing agency for local service businesses. We build done-for-you lead generation systems — video ads, conversion pages & automated follow-up — that deliver consistent enquiries every week." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+    NAV
+  ============================================================ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="assets/PUURE DIGITAL LOGO white and green.png" alt="Puure Digital" />
+      </a>
+      <div class="nav__links">
+        <a href="#system">How It Works</a>
+        <a href="#results">Results</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a href="#book" class="btn btn--nav">Book a Free Call</a>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <!-- Mobile menu drawer -->
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="#system">How It Works</a>
+      <a href="#results">Results</a>
+      <a href="#faq">FAQ</a>
+      <a href="#book" class="nav__mobile-cta btn btn--primary">Book a Free Strategy Call</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+    HERO  · dark
+  ============================================================ -->
+  <section class="hero" id="top">
+    <!-- Animation layers -->
+    <div class="hero__sweep" aria-hidden="true"></div>
+    <div class="hero__grid" aria-hidden="true"></div>
+    <div class="hero__atm-line" aria-hidden="true"></div>
+    <div class="hero__particles" id="heroParticles" aria-hidden="true"></div>
+    <div class="hero__bg-glow" aria-hidden="true"></div>
+    <div class="hero__bg-glow-bottom" aria-hidden="true"></div>
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+
+    <div class="container hero__container">
+      <div class="hero__content">
+        <div class="eyebrow" id="heroEyebrow">
+          <span class="eyebrow__line"></span>
+          <span class="eyebrow__text">Digital Marketing Agency · Norwich, Norfolk</span>
+        </div>
+        <h1 class="hero__h1" id="heroH1">
+          Turn Attention<br />Into <span class="hero__typewriter" id="heroTypewriter"></span>
+        </h1>
+        <p class="hero__sub" id="heroSub">
+          Norwich-based specialists in lead generation for local service businesses. We build complete marketing systems — video ads, high-converting landing pages, and automated follow-up — that deliver qualified enquiries every week.
+        </p>
+        <div class="hero__ctas" id="heroCtas">
+          <a href="#book" class="btn btn--primary">Book a Free Strategy Call</a>
+          <a href="#system" class="btn btn--ghost">
+            <span>See How It Works</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Story video carousel -->
+      <div class="hero__story" id="heroStory" aria-hidden="true">
+        <div class="story__carousel" id="storyCarousel">
+
+          <!-- Slide 0 — starts left -->
+          <div class="story__slide" data-slot="left">
+            <div class="story__phone">
+              <div class="story__progress"><div class="story__progress-track"><div class="story__progress-fill"></div></div></div>
+              <video class="story__video" muted playsinline loop>
+                <source src="images - videos/compressed videos/APEX FLEX (font change).mp4" type="video/mp4">
+              </video>
+              <div class="story__overlay" aria-hidden="true"></div>
+              <div class="story__label"><span class="story__label-dot"></span><span>Client results</span></div>
+            </div>
+          </div>
+
+          <!-- Slide 1 — starts center (main) -->
+          <div class="story__slide" data-slot="center">
+            <div class="story__phone">
+              <div class="story__progress"><div class="story__progress-track"><div class="story__progress-fill"></div></div></div>
+              <video class="story__video" autoplay muted playsinline>
+                <source src="images - videos/compressed videos/Coltishall Road, Buxton Norwich.mp4" type="video/mp4">
+              </video>
+              <div class="story__overlay" aria-hidden="true"></div>
+              <div class="story__label"><span class="story__label-dot"></span><span>Client results</span></div>
+            </div>
+          </div>
+
+          <!-- Slide 2 — starts right -->
+          <div class="story__slide" data-slot="right">
+            <div class="story__phone">
+              <div class="story__progress"><div class="story__progress-track"><div class="story__progress-fill"></div></div></div>
+              <video class="story__video" muted playsinline loop>
+                <source src="images - videos/compressed videos/FordFit 2.mp4" type="video/mp4">
+              </video>
+              <div class="story__overlay" aria-hidden="true"></div>
+              <div class="story__label"><span class="story__label-dot"></span><span>Client results</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Arrow navigation -->
+        <div class="story__navs">
+          <button class="story__nav" id="storyPrev" aria-label="Previous video">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="story__nav" id="storyNext" aria-label="Next video">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll-ind" aria-hidden="true">
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    CLIENT LOGOS  · dark
+  ============================================================ -->
+  <section class="clients">
+    <p class="clients__label">Trusted by</p>
+    <div class="clients__mask">
+      <div class="clients__track">
+        <!-- Set 1 -->
+        <div class="client__logo"><img src="images - videos/Client logos/1.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/2.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/3.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/4.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/5.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/6.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/7.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/8.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/9.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/10.png" alt="Client" /></div>
+        <!-- Set 2 — duplicate for seamless loop -->
+        <div class="client__logo"><img src="images - videos/Client logos/1.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/2.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/3.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/4.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/5.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/6.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/7.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/8.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/9.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/10.png" alt="Client" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    PROBLEM JOURNEY  · dark — scroll-driven editorial sequence
+    Fragmented activity → structured system
+  ============================================================ -->
+  <section class="pj" id="probJourney">
+    <div class="pj__pin">
+
+      <!-- Phase 1: problem intro + three cards -->
+      <div class="pj__stage" id="pjStage">
+        <p class="pj__intro" id="pjIntro">Most Norwich businesses are spending money on <em>marketing.</em><br>But the phone isn't ringing like it <em>should.</em></p>
+
+        <div class="pj__cards" id="pjCards">
+
+          <div class="pj__card" id="pjCard0">
+            <div class="pj__card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <h3 class="pj__card-h">Enquiries Dry Up</h3>
+            <p class="pj__card-p">Leads come in briefly, then stop. No system in place to capture, nurture, or convert them before they go cold.</p>
+          </div>
+
+          <div class="pj__card" id="pjCard1">
+            <div class="pj__card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 3h18L15 11v7l-6-3V11L3 3z"/>
+              </svg>
+            </div>
+            <h3 class="pj__card-h">Ads Burn Budget</h3>
+            <p class="pj__card-p">Money goes into Meta and Google. Clicks happen. But without the right landing page and offer, nothing converts.</p>
+          </div>
+
+          <div class="pj__card" id="pjCard2">
+            <div class="pj__card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+                <line x1="4" y1="4" x2="20" y2="20" stroke-dasharray="3 3"/>
+              </svg>
+            </div>
+            <h3 class="pj__card-h">Leads Go Cold</h3>
+            <p class="pj__card-p">An enquiry lands. You're busy. By the time you respond, they've booked someone else. Without automation, speed-to-lead kills growth.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Phase 2: resolution -->
+      <div class="pj__resolve" id="pjResolve">
+        <!-- Teal glow animation layers -->
+        <div class="pj__resolve-glow pj__resolve-glow--1" aria-hidden="true"></div>
+        <div class="pj__resolve-glow pj__resolve-glow--2" aria-hidden="true"></div>
+        <div class="pj__resolve-glow pj__resolve-glow--3" aria-hidden="true"></div>
+        <div class="pj__resolve-pulse" aria-hidden="true">
+          <div class="pj__resolve-ring pj__resolve-ring--1"></div>
+          <div class="pj__resolve-ring pj__resolve-ring--2"></div>
+          <div class="pj__resolve-ring pj__resolve-ring--3"></div>
+        </div>
+
+        <p class="pj__resolve-a">This isn't a marketing spend problem.</p>
+        <p class="pj__resolve-b">It's a <em class="glow-teal">system</em> <em class="glow-teal">problem.</em></p>
+        <p class="pj__resolve-c">Most agencies fix one thing. We build the whole system.</p>
+
+        <div class="pj__resolve-arrow" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+    THE SYSTEM  · dark
+  ============================================================ -->
+  <section class="system" id="system">
+    <div class="container">
+      <div class="section-label">The Puure System</div>
+      <h2 class="section-h2 section-h2--center">
+        Attention. Conversion. Follow-Up.
+      </h2>
+      <p class="section-sub section-sub--center">
+        Three interconnected pillars. One complete system. Built to generate qualified leads for Norwich service businesses — predictably, every month.
+      </p>
+
+      <!-- Roadmap wrapper -->
+      <div class="roadmap" id="roadmap">
+
+        <!-- Mobile vertical line (hidden on desktop, animated on mobile) -->
+        <div class="roadmap__vline" aria-hidden="true"></div>
+
+        <!-- SVG connecting path — drawn on scroll -->
+        <svg class="roadmap__svg" id="roadmapSvg" viewBox="0 0 800 900" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <filter id="tealGlow">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- S-curve: starts top-left, curves to right, curves back to left -->
+          <path id="roadmapPath"
+            d="M 260 60 C 260 200, 540 250, 540 420 C 540 590, 260 640, 260 820"
+            fill="none"
+            stroke="rgba(23,133,132,0.9)"
+            stroke-width="2"
+            stroke-linecap="round"
+            filter="url(#tealGlow)"
+          />
+        </svg>
+
+        <!-- Card 01 — left -->
+        <div class="roadmap__item roadmap__item--left" id="rmCard0">
+          <div class="roadmap__node" aria-hidden="true"></div>
+          <div class="system__card">
+            <div class="system__num">01</div>
+            <div class="system__icon-wrap">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="8"/>
+                <circle cx="24" cy="24" r="2" fill="currentColor" stroke="none"/>
+                <line x1="24" y1="4" x2="24" y2="14"/><line x1="24" y1="34" x2="24" y2="44"/>
+                <line x1="4" y1="24" x2="14" y2="24"/><line x1="34" y1="24" x2="44" y2="24"/>
+              </svg>
+            </div>
+            <h3>Attention</h3>
+            <p>We put your business in front of the right people across Norwich — and make sure it stops them scrolling. Precise targeting. Compelling creative. Zero wasted budget.</p>
+            <ul>
+              <li>Video ad production</li>
+              <li>Meta &amp; Google ads</li>
+              <li>Organic content</li>
+              <li>SEO &amp; website presence</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 02 — right -->
+        <div class="roadmap__item roadmap__item--right" id="rmCard1">
+          <div class="roadmap__node" aria-hidden="true"></div>
+          <div class="system__card">
+            <div class="system__num">02</div>
+            <div class="system__icon-wrap">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 10h28L28 26v10l-8-4V26L10 10z"/>
+              </svg>
+            </div>
+            <h3>Conversion</h3>
+            <p>We turn that attention into real enquiries through pages and offers built to convert. Every element is designed with one goal: get the visitor to take action.</p>
+            <ul>
+              <li>Landing page design &amp; build</li>
+              <li>Offer creation &amp; messaging</li>
+              <li>Funnel build &amp; optimisation</li>
+              <li>Website UX improvements</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 03 — left -->
+        <div class="roadmap__item roadmap__item--left" id="rmCard2">
+          <div class="roadmap__node" aria-hidden="true"></div>
+          <div class="system__card">
+            <div class="system__num">03</div>
+            <div class="system__icon-wrap">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M26 6L12 28h14l-4 14L36 20H22L26 6z"/>
+              </svg>
+            </div>
+            <h3>Follow-up</h3>
+            <p>We make sure no lead goes cold. Automated responses in minutes — not hours — so you're always first to reply, even when you're on site.</p>
+            <ul>
+              <li>CRM setup &amp; management</li>
+              <li>WhatsApp, SMS &amp; email</li>
+              <li>Speed-to-lead automation</li>
+              <li>Lead tracking pipeline</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    SERVICES  · light
+  ============================================================ -->
+  <section class="services">
+    <div class="container container--mid">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-h2">Everything You Need.<br class="br-d" /> Nothing You Don't.</h2>
+      <p class="section-sub">Every service is part of an interconnected system — not a standalone offering.</p>
+
+      <div class="svc__list">
+
+        <div class="svc__item">
+          <span class="svc__num">01</span>
+          <div class="svc__body">
+            <div class="svc__top">
+              <h3 class="svc__name">Paid Advertising</h3>
+              <span class="svc__tag">More enquiries. More pipeline.</span>
+            </div>
+            <p class="svc__desc">Meta and Google campaigns targeting the right audiences in Norwich — managed, tested, and reported weekly. We don't set and forget.</p>
+          </div>
+          <div class="svc__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M4 26L12 18l5 5 7-9 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="2" width="28" height="28" rx="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+        </div>
+
+        <div class="svc__item">
+          <span class="svc__num">02</span>
+          <div class="svc__body">
+            <div class="svc__top">
+              <h3 class="svc__name">SEO &amp; Content</h3>
+              <span class="svc__tag">Be found in Norwich. Stay found.</span>
+            </div>
+            <p class="svc__desc">Rank for the searches that matter in Norwich and beyond. Long-term organic visibility built on strategy, not guesswork.</p>
+          </div>
+          <div class="svc__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="1.5"/><path d="M3 16h26M16 3c-3.5 5-5.5 8.5-5.5 13s2 8 5.5 13M16 3c3.5 5 5.5 8.5 5.5 13S19.5 24 16 29" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+        <div class="svc__item">
+          <span class="svc__num">03</span>
+          <div class="svc__body">
+            <div class="svc__top">
+              <h3 class="svc__name">Landing Pages &amp; Funnels</h3>
+              <span class="svc__tag">Higher conversion. More booked calls.</span>
+            </div>
+            <p class="svc__desc">Conversion-optimised pages built around your specific offer and audience. Not a generic website — a page engineered to turn visitors into enquiries.</p>
+          </div>
+          <div class="svc__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="2" y="4" width="28" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 10h28M10 26l2-4M22 26l-2-4M8 26h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+        <div class="svc__item">
+          <span class="svc__num">04</span>
+          <div class="svc__body">
+            <div class="svc__top">
+              <h3 class="svc__name">Lead Automation &amp; CRM</h3>
+              <span class="svc__tag">Every lead followed up. Nothing missed.</span>
+            </div>
+            <p class="svc__desc">Automated WhatsApp, SMS, and email sequences that respond to Norwich leads within minutes. Your pipeline stays warm — even at 2am.</p>
+          </div>
+          <div class="svc__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M5 8h22a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5"/><path d="M3 13l13 8 13-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    RESULTS  · dark
+  ============================================================ -->
+  <section class="results" id="results">
+    <div class="container">
+      <div class="section-label">Results</div>
+      <h2 class="section-h2">Norwich Businesses.<br />Real Results.</h2>
+
+      <div class="results__cases">
+
+        <!-- Feature 1: video left, content right -->
+        <div class="result__feature">
+          <div class="result__feature-media">
+            <video class="result__feature-video" autoplay muted playsinline loop>
+              <source src="images - videos/compressed videos/Coltishall Road, Buxton Norwich.mp4" type="video/mp4">
+            </video>
+            <div class="result__feature-overlay"></div>
+          </div>
+          <div class="result__feature-content">
+            <span class="result__feature-label">Client results</span>
+            <h3 class="result__feature-h">Consistent Leads for a<br /><em>Norwich Estate Agency</em></h3>
+            <p class="result__feature-p">A Norwich estate agency running entirely on referrals had no predictable way to generate new business. We built a complete lead generation system — targeted video ads, a dedicated conversion page, and automated follow-up — turning a passive business into one generating qualified enquiries every single week.</p>
+            <div class="result__metrics">
+              <div class="result__metric">
+                <span>+340%</span>
+                <small>Enquiry volume</small>
+              </div>
+              <div class="result__metric">
+                <span>6 wks</span>
+                <small>To see results</small>
+              </div>
+              <div class="result__metric">
+                <span>4.2×</span>
+                <small>Return on spend</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 2: content left, video right -->
+        <div class="result__feature result__feature--reverse">
+          <div class="result__feature-media">
+            <video class="result__feature-video" autoplay muted playsinline loop>
+              <source src="images - videos/compressed videos/FordFit 2.mp4" type="video/mp4">
+            </video>
+            <div class="result__feature-overlay"></div>
+          </div>
+          <div class="result__feature-content">
+            <span class="result__feature-label">Client results</span>
+            <h3 class="result__feature-h">Scaling a Norwich Home<br />Improvement Business with <em>Paid Ads</em></h3>
+            <p class="result__feature-p">A Norwich home improvement company was burning budget on ads with no strategy and nothing to show for it. We rebuilt everything from scratch — new video creative, a purpose-built landing page, and instant lead follow-up. Month one delivered 22 qualified leads at a return no previous agency had come close to.</p>
+            <div class="result__metrics">
+              <div class="result__metric">
+                <span>22</span>
+                <small>Leads in month one</small>
+              </div>
+              <div class="result__metric">
+                <span>£0</span>
+                <small>Wasted on old agency</small>
+              </div>
+              <div class="result__metric">
+                <span>3.8×</span>
+                <small>Return on spend</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="results__cta">
+        <a href="#book" class="btn btn--primary">Book a Free Strategy Call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    HOW IT WORKS  · light
+  ============================================================ -->
+  <section class="process">
+    <div class="container container--mid">
+
+      <div class="section-label">How It Works</div>
+      <h2 class="section-h2 process__h2">Transparent From<br /><em class="process__em">Day One.</em></h2>
+      <p class="process__sub">No lengthy onboarding. No guessing. From your first call to a live campaign, we move quickly and keep you informed at every step.</p>
+
+      <!-- Connecting line (desktop) -->
+      <div class="process__cols" id="processCols">
+        <div class="process__connector" aria-hidden="true"><div class="process__connector-fill" id="processLine"></div></div>
+
+        <div class="process__col">
+          <div class="process__ghost" aria-hidden="true">01</div>
+          <div class="process__icon-wrap">
+            <div class="process__icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
+                <line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/>
+              </svg>
+            </div>
+            <div class="process__pulse" aria-hidden="true"></div>
+          </div>
+          <p class="process__timing">Week 1</p>
+          <h3>Strategy</h3>
+          <p>We start with a free 30-minute call to understand your Norwich business, your ideal customer, and what growth actually looks like for you — then map the exact system before anything is signed.</p>
+          <div class="process__deliverable">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Custom growth roadmap &amp; system plan</span>
+          </div>
+        </div>
+
+        <div class="process__col">
+          <div class="process__ghost" aria-hidden="true">02</div>
+          <div class="process__icon-wrap">
+            <div class="process__icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </div>
+            <div class="process__pulse" aria-hidden="true"></div>
+          </div>
+          <p class="process__timing">Week 2–3</p>
+          <h3>Launch</h3>
+          <p>We film, build, and go live. Landing page, ads, and automated follow-up — all switched on within two weeks of signing. No delays, no fluff.</p>
+          <div class="process__deliverable">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Live campaign + landing page</span>
+          </div>
+        </div>
+
+        <div class="process__col">
+          <div class="process__ghost" aria-hidden="true">03</div>
+          <div class="process__icon-wrap">
+            <div class="process__icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div class="process__pulse" aria-hidden="true"></div>
+          </div>
+          <p class="process__timing">Ongoing</p>
+          <h3>Optimise</h3>
+          <p>Every month we review results, cut what's not working, and scale what is. You get a clear monthly report. The system compounds — getting sharper with every cycle.</p>
+          <div class="process__deliverable">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Monthly reporting + continuous optimisation</span>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="process__footnote">Most Norwich clients see meaningful results within their first 30 days.</p>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+    TESTIMONIALS  · dark
+  ============================================================ -->
+  <section class="testimonials">
+    <div class="container container--mid">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-h2">There's a Reason Norwich<br />Businesses Keep <em class="testi__em">Recommending</em> Us.</h2>
+    </div>
+
+    <!-- Full-width marquee — bleeds past container -->
+    <div class="testi__marquee-wrap">
+
+      <!-- Row 1: scrolls left -->
+      <div class="testi__track">
+        <div class="testi__inner testi__inner--fwd">
+
+          <!-- original set -->
+          <button class="testi__card" data-quote="The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold." data-name="James M." data-biz="Outdoor Living Company · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold.</p>
+            <div class="testi__card-footer"><strong>James M.</strong><span>Outdoor Living Company · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click." data-name="Sarah R." data-biz="Aesthetics Clinic · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click.</p>
+            <div class="testi__card-footer"><strong>Sarah R.</strong><span>Aesthetics Clinic · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business." data-name="Dave H." data-biz="Building Contractor · Suffolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business.</p>
+            <div class="testi__card-footer"><strong>Dave H.</strong><span>Building Contractor · Suffolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results." data-name="Laura C." data-biz="Dental Practice · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results.</p>
+            <div class="testi__card-footer"><strong>Laura C.</strong><span>Dental Practice · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough." data-name="Tom W." data-biz="Landscaping Business · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough.</p>
+            <div class="testi__card-footer"><strong>Tom W.</strong><span>Landscaping Business · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing." data-name="Rachel B." data-biz="Property Company · East Anglia">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing.</p>
+            <div class="testi__card-footer"><strong>Rachel B.</strong><span>Property Company · East Anglia</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <!-- duplicate set for seamless loop -->
+          <button class="testi__card" data-quote="The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold." data-name="James M." data-biz="Outdoor Living Company · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold.</p>
+            <div class="testi__card-footer"><strong>James M.</strong><span>Outdoor Living Company · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click." data-name="Sarah R." data-biz="Aesthetics Clinic · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click.</p>
+            <div class="testi__card-footer"><strong>Sarah R.</strong><span>Aesthetics Clinic · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business." data-name="Dave H." data-biz="Building Contractor · Suffolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business.</p>
+            <div class="testi__card-footer"><strong>Dave H.</strong><span>Building Contractor · Suffolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results." data-name="Laura C." data-biz="Dental Practice · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results.</p>
+            <div class="testi__card-footer"><strong>Laura C.</strong><span>Dental Practice · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough." data-name="Tom W." data-biz="Landscaping Business · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough.</p>
+            <div class="testi__card-footer"><strong>Tom W.</strong><span>Landscaping Business · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing." data-name="Rachel B." data-biz="Property Company · East Anglia">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing.</p>
+            <div class="testi__card-footer"><strong>Rachel B.</strong><span>Property Company · East Anglia</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Row 2: scrolls right (offset order for visual variety) -->
+      <div class="testi__track">
+        <div class="testi__inner testi__inner--rev">
+
+          <!-- original set (shifted order) -->
+          <button class="testi__card" data-quote="Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results." data-name="Laura C." data-biz="Dental Practice · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results.</p>
+            <div class="testi__card-footer"><strong>Laura C.</strong><span>Dental Practice · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough." data-name="Tom W." data-biz="Landscaping Business · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough.</p>
+            <div class="testi__card-footer"><strong>Tom W.</strong><span>Landscaping Business · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing." data-name="Rachel B." data-biz="Property Company · East Anglia">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing.</p>
+            <div class="testi__card-footer"><strong>Rachel B.</strong><span>Property Company · East Anglia</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold." data-name="James M." data-biz="Outdoor Living Company · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold.</p>
+            <div class="testi__card-footer"><strong>James M.</strong><span>Outdoor Living Company · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click." data-name="Sarah R." data-biz="Aesthetics Clinic · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click.</p>
+            <div class="testi__card-footer"><strong>Sarah R.</strong><span>Aesthetics Clinic · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business." data-name="Dave H." data-biz="Building Contractor · Suffolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business.</p>
+            <div class="testi__card-footer"><strong>Dave H.</strong><span>Building Contractor · Suffolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <!-- duplicate set for seamless loop -->
+          <button class="testi__card" data-quote="Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results." data-name="Laura C." data-biz="Dental Practice · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Our cost per lead dropped by over 40% in the first two months. The team really took the time to understand our business before touching anything. It shows in the results.</p>
+            <div class="testi__card-footer"><strong>Laura C.</strong><span>Dental Practice · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough." data-name="Tom W." data-biz="Landscaping Business · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Finally an agency that speaks plainly and does what they say. We went from zero online presence to fully booked within six weeks. Genuinely couldn't recommend them enough.</p>
+            <div class="testi__card-footer"><strong>Tom W.</strong><span>Landscaping Business · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing." data-name="Rachel B." data-biz="Property Company · East Anglia">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The automation alone was worth every penny. Enquiries that used to go cold are now converting. Our sales team spends less time chasing and more time closing.</p>
+            <div class="testi__card-footer"><strong>Rachel B.</strong><span>Property Company · East Anglia</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold." data-name="James M." data-biz="Outdoor Living Company · Norfolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">The difference was immediate. Within the first month we had more enquiries than we'd had all quarter. The follow-up system alone has saved us at least 5 jobs that would have gone cold.</p>
+            <div class="testi__card-footer"><strong>James M.</strong><span>Outdoor Living Company · Norfolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click." data-name="Sarah R." data-biz="Aesthetics Clinic · Norwich">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">We'd tried two agencies before Puure and wasted thousands. What's different is they actually understand the full picture — not just the ads but everything after the click.</p>
+            <div class="testi__card-footer"><strong>Sarah R.</strong><span>Aesthetics Clinic · Norwich</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+          <button class="testi__card" data-quote="Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business." data-name="Dave H." data-biz="Building Contractor · Suffolk">
+            <span class="testi__card-mark" aria-hidden="true">"</span>
+            <p class="testi__card-text">Straightforward, transparent, and they deliver. We get a monthly report that actually tells us what's working. Best marketing decision we've made in 10 years of business.</p>
+            <div class="testi__card-footer"><strong>Dave H.</strong><span>Building Contractor · Suffolk</span></div>
+            <span class="testi__card-expand" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+
+        </div>
+      </div>
+
+    </div><!-- /.testi__marquee-wrap -->
+
+    <!-- Expand overlay -->
+    <div class="testi__overlay" id="testiOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="testi__overlay-inner">
+        <button class="testi__overlay-close" id="testiOverlayClose" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <span class="testi__overlay-mark" aria-hidden="true">"</span>
+        <blockquote class="testi__overlay-quote" id="testiOverlayQuote"></blockquote>
+        <div class="testi__overlay-divider"></div>
+        <div class="testi__overlay-attr">
+          <strong id="testiOverlayName"></strong>
+          <span id="testiOverlayBiz"></span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+    FAQ  · light
+  ============================================================ -->
+  <section class="faq" id="faq">
+    <div class="container container--narrow">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-h2">Common Questions<br />From Norwich Businesses.</h2>
+
+      <div class="faq__list">
+
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">
+            <em class="faq__n">01</em>
+            <span class="faq__qtext">How quickly will I see results from your marketing?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__a">
+            <p>Most Norwich clients start seeing enquiries within the first 2–4 weeks of going live. Month one is focused on data, testing, and optimisation — results typically compound from month two as we refine targeting and creative.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">
+            <em class="faq__n">02</em>
+            <span class="faq__qtext">How much should I budget for ads in Norwich?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__a">
+            <p>We recommend a minimum ad spend of £500–£800/month separate from our management fee. That gives the system enough data to optimise. Most clients see a clear return within 60–90 days and increase spend from there.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">
+            <em class="faq__n">03</em>
+            <span class="faq__qtext">I've tried ads before and they didn't work. Why would this be different?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__a">
+            <p>Ads alone rarely work without the right landing page, offer, and follow-up in place. That combination is exactly why most campaigns fail. Our system addresses all three — it's a fundamentally different approach to running ads in isolation.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">
+            <em class="faq__n">04</em>
+            <span class="faq__qtext">How much of my time will this actually need?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__a">
+            <p>Very little. We handle everything. The only requirement is one filming day per month and occasional creative approvals. Most clients spend fewer than two hours a month on marketing after their first month.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">
+            <em class="faq__n">05</em>
+            <span class="faq__qtext">Is there a minimum contract?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__a">
+            <p>We ask for a 3-month minimum to give the system enough time to deliver consistent results. After that, it rolls monthly. We're confident in what we do — we don't need to trap clients in long contracts.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">
+            <em class="faq__n">06</em>
+            <span class="faq__qtext">Do you work with businesses outside Norwich?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__a">
+            <p>Absolutely. We're based in Norwich and primarily serve businesses across Norfolk and the wider East Anglia region. For filming days we travel to you — or we can coach your team to capture footage to our brief.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    INSTAGRAM  · dark
+  ============================================================ -->
+  <section class="instagram">
+    <div class="container">
+      <div class="instagram__header">
+        <div>
+          <div class="section-label">Latest Content</div>
+          <h2 class="section-h2">See What We're Building.</h2>
+        </div>
+        <a href="https://www.instagram.com/puuredigital" target="_blank" rel="noopener" class="insta__handle">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          @puuredigital
+        </a>
+      </div>
+      <div class="instagram__widget">
+        <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
+        <iframe src="//lightwidget.com/widgets/4ba3b779d8c653729dfe74f3bcfa4d53.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    FINAL CTA  · dark
+  ============================================================ -->
+  <section class="cta" id="book">
+    <div class="cta__glow" aria-hidden="true"></div>
+    <div class="cta__grain" aria-hidden="true"></div>
+    <div class="cta__line" aria-hidden="true"></div>
+    <div class="cta__rings" aria-hidden="true">
+      <div class="cta__ring cta__ring--1"></div>
+      <div class="cta__ring cta__ring--2"></div>
+      <div class="cta__ring cta__ring--3"></div>
+    </div>
+    <div class="container container--narrow">
+      <div class="cta__inner">
+        <div class="eyebrow eyebrow--light">Free. No obligation. No hard sell.</div>
+        <h2 class="cta__h2">
+          Book Your<br />Free Strategy Call.
+        </h2>
+        <p class="cta__sub">
+          30 minutes. We'll look at your Norwich business, identify exactly where new leads should be coming from, and show you what a full system built for you would look like — no commitment required.
+        </p>
+        <a href="https://calendly.com/puuredigital" class="btn btn--primary btn--xl">Book a Free Strategy Call</a>
+        <p class="cta__note">Usually available within 48 hours. No commitment required.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="assets/PUURE DIGITAL LOGO white and green.png" alt="Puure Digital" class="footer__logo" />
+          <p>Norwich-based growth marketing for service businesses across Norwich and beyond.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__col">
+            <strong>Company</strong>
+            <a href="#system">How It Works</a>
+            <a href="#results">Results</a>
+            <a href="#faq">FAQ</a>
+            <a href="#book">Book a Call</a>
+          </div>
+          <div class="footer__col">
+            <strong>Contact</strong>
+            <a href="mailto:hello@puuredigital.co.uk">hello@puuredigital.co.uk</a>
+            <a href="tel:+447432290462">+44 7432 290 462</a>
+            <span>Mon–Fri, 9:00–5:30</span>
+          </div>
+          <div class="footer__col">
+            <strong>Location</strong>
+            <span>The Union Building</span>
+            <span>51–59 Rose Lane</span>
+            <span>Norwich NR1 1BY</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Puure Digital Ltd. All rights reserved.</p>
+        <a href="https://www.instagram.com/puuredigital" target="_blank" rel="noopener" class="footer__insta">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10" r="3.2" stroke="currentColor" stroke-width="1.3"/><circle cx="14.5" cy="5.5" r="0.8" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+
+  <!-- ============================================================
+    FLOATING ACTION BUTTON
+  ============================================================ -->
+  <!-- Custom cursor -->
+  <div class="cursor__dot" id="cursorDot"></div>
+  <div class="cursor__ring" id="cursorRing"></div>
+
+  <div class="fab" id="fab" aria-label="Contact us">
+    <!-- Child buttons — revealed on open -->
+    <a href="tel:+441603000000" class="fab__child fab__child--phone" aria-label="Call us" data-index="0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.59a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <span class="fab__tooltip">Call</span>
+    </a>
+    <a href="https://instagram.com/puure.digital" target="_blank" rel="noopener" class="fab__child fab__child--instagram" aria-label="Instagram" data-index="1">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="fab__tooltip">Instagram</span>
+    </a>
+    <a href="https://facebook.com/puuredigital" target="_blank" rel="noopener" class="fab__child fab__child--facebook" aria-label="Facebook" data-index="2">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+      </svg>
+      <span class="fab__tooltip">Facebook</span>
+    </a>
+
+    <!-- Main trigger button -->
+    <button class="fab__trigger" id="fabTrigger" aria-expanded="false" aria-label="Open contact options">
+      <!-- Plus / close icon -->
+      <span class="fab__icon fab__icon--plus" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+          <line x1="12" y1="18" x2="12.01" y2="18"/>
+        </svg>
+      </span>
+      <span class="fab__icon fab__icon--close" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+</body>
+</html>
