@@ -983,6 +983,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 12. Testimonials carousel
   initTestimonials();
 
+  // 13b. Pricing toggle + tilt
+  initPricing();
+
   // 13. Floating action button
   initFab();
 
@@ -1153,6 +1156,40 @@ function initCursor() {
   document.addEventListener('mouseenter', () => {
     dot.style.opacity = '1';
     ring.style.opacity = '1';
+  });
+}
+
+function initPricing() {
+  const toggle = document.getElementById('pricingToggle');
+  if (!toggle) return;
+  const amounts = document.querySelectorAll('.pricing__amount');
+
+  toggle.addEventListener('click', () => {
+    const isAnnual = toggle.getAttribute('aria-checked') === 'true';
+    toggle.setAttribute('aria-checked', isAnnual ? 'false' : 'true');
+
+    amounts.forEach(el => {
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.textContent = isAnnual ? el.dataset.monthly : el.dataset.annual;
+        el.style.opacity = '1';
+      }, 150);
+    });
+  });
+
+  // 3D tilt on cards
+  document.querySelectorAll('.pricing__card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `translateY(-6px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+      card.style.transition = 'transform 0.1s ease, border-color 0.3s, box-shadow 0.4s';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.4s';
+    });
   });
 }
 
