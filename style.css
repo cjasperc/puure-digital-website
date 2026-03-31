@@ -2532,8 +2532,8 @@ body {
 .pricing__heading-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: center;
+  gap: 48px;
   margin-top: 16px;
   margin-bottom: 48px;
   flex-wrap: wrap;
@@ -2543,13 +2543,12 @@ body {
   font-size: 15px;
   line-height: 1.7;
   color: rgba(255,255,255,0.5);
-  max-width: 320px;
-  text-align: right;
+  max-width: 280px;
   flex-shrink: 0;
 }
 @media (max-width: 768px) {
-  .pricing__heading-row { flex-direction: column; align-items: flex-start; }
-  .pricing__heading-sub { text-align: left; }
+  .pricing__heading-row { flex-direction: column; align-items: center; text-align: center; }
+  .pricing__heading-sub { text-align: center; }
 }
 .pricing__em {
   font-family: 'Cormorant Garamond', serif;
