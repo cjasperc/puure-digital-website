@@ -2036,15 +2036,34 @@ body {
   overflow: hidden;
 }
 
-/* Ambient glow */
-.testimonials::before {
+/* Google colour orbs */
+.testimonials::before,
+.testimonials::after {
   content: '';
   position: absolute;
-  bottom: -100px; left: 50%;
-  transform: translateX(-50%);
-  width: 800px; height: 500px;
-  background: radial-gradient(ellipse at center, rgba(23,85,84,0.08) 0%, transparent 65%);
+  border-radius: 50%;
   pointer-events: none;
+  filter: blur(80px);
+}
+.testimonials::before {
+  width: 600px; height: 600px;
+  top: 10%; left: -100px;
+  background: radial-gradient(ellipse at center, rgba(66,133,244,0.07) 0%, transparent 70%);
+}
+.testimonials::after {
+  width: 500px; height: 500px;
+  bottom: 5%; right: -80px;
+  background: radial-gradient(ellipse at center, rgba(234,67,53,0.06) 0%, transparent 70%);
+}
+.testimonials__orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+  width: 450px; height: 450px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(251,188,5,0.05) 0%, transparent 70%);
 }
 
 /* Italic serif word in testimonials heading */
