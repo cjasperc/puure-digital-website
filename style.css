@@ -2529,8 +2529,28 @@ body {
   position: relative;
   overflow: hidden;
 }
-.pricing .section-h2 { margin-top: 16px; }
-.pricing .section-sub { margin-bottom: 48px; }
+.pricing__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 16px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.pricing__heading-row .section-h2 { margin: 0; }
+.pricing__heading-sub {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.5);
+  max-width: 320px;
+  text-align: right;
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .pricing__heading-row { flex-direction: column; align-items: flex-start; }
+  .pricing__heading-sub { text-align: left; }
+}
 .pricing__em {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
