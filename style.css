@@ -2056,6 +2056,83 @@ body {
 }
 
 /* ---- Marquee wall ---- */
+/* Google trust bar */
+.testi__trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  margin-bottom: 0;
+}
+.testi__g-icon { flex-shrink: 0; }
+.testi__trust-stars {
+  color: #FBBC05;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.testi__trust-score {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+}
+.testi__trust-sep {
+  color: rgba(255,255,255,0.3);
+  font-size: 13px;
+}
+.testi__trust-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* View on Google button */
+.testi__google-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.testi__google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.testi__google-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.22);
+  color: var(--white);
+}
+
+/* Stars on each card */
+.testi__card-stars {
+  color: #FBBC05;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Google badge in card footer */
+.testi__card-google {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+.testi__card-google span {
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.04em;
+}
+
 .testi__marquee-wrap {
   margin-top: 72px;
   display: flex;
