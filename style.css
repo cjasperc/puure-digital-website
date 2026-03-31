@@ -2372,7 +2372,7 @@ body {
 .team__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%);
 }
 .team__content {
   position: absolute;
@@ -2381,30 +2381,32 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   padding: 40px 44px;
-  gap: 24px;
+  gap: 20px;
 }
 .team__role {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 6px;
+  color: rgba(29,190,189,1);
+  margin-bottom: 4px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.8);
 }
 .team__name {
   font-size: clamp(28px, 3vw, 42px);
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.9);
 }
 .team__linkedin {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
   border-radius: 100px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--white);
@@ -2421,8 +2423,8 @@ body {
   transform: translateY(0);
 }
 .team__linkedin:hover {
-  background: rgba(23,133,132,0.25);
-  border-color: rgba(23,133,132,0.5);
+  background: rgba(23,133,132,0.35);
+  border-color: rgba(23,133,132,0.6);
 }
 .team__member:first-child {
   border-right: 1px solid rgba(255,255,255,0.06);
@@ -2432,13 +2434,19 @@ body {
 @media (max-width: 640px) {
   .team__grid {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
     height: auto;
     max-height: none;
   }
-  .team__member { height: 60vw; min-height: 280px; }
-  .team__member:first-child { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .team__content { padding: 28px; }
+  .team__member {
+    height: 75vw;
+    min-height: 320px;
+  }
+  .team__member:first-child {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .team__content { padding: 24px 28px; gap: 14px; }
+  .team__name { font-size: clamp(26px, 7vw, 34px); }
   .team__linkedin { opacity: 1; transform: none; }
 }
 
