@@ -6,52 +6,52 @@
 
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-Light.ttf') format('truetype');
+  src: url('fonts/Urbanist-Light.ttf') format('truetype');
   font-weight: 300; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-LightItalic.ttf') format('truetype');
+  src: url('fonts/Urbanist-LightItalic.ttf') format('truetype');
   font-weight: 300; font-style: italic; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-Regular.ttf') format('truetype');
+  src: url('fonts/Urbanist-Regular.ttf') format('truetype');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-Italic.ttf') format('truetype');
+  src: url('fonts/Urbanist-Italic.ttf') format('truetype');
   font-weight: 400; font-style: italic; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-Medium.ttf') format('truetype');
+  src: url('fonts/Urbanist-Medium.ttf') format('truetype');
   font-weight: 500; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-MediumItalic.ttf') format('truetype');
+  src: url('fonts/Urbanist-MediumItalic.ttf') format('truetype');
   font-weight: 500; font-style: italic; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-SemiBold.ttf') format('truetype');
+  src: url('fonts/Urbanist-SemiBold.ttf') format('truetype');
   font-weight: 600; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-Bold.ttf') format('truetype');
+  src: url('fonts/Urbanist-Bold.ttf') format('truetype');
   font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-ExtraBold.ttf') format('truetype');
+  src: url('fonts/Urbanist-ExtraBold.ttf') format('truetype');
   font-weight: 800; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Urbanist';
-  src: url('Urbanist-Black.ttf') format('truetype');
+  src: url('fonts/Urbanist-Black.ttf') format('truetype');
   font-weight: 900; font-style: normal; font-display: swap;
 }
 
