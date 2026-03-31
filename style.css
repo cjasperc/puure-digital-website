@@ -2336,6 +2336,83 @@ body {
   padding: 120px 0;
   background: var(--d-bg);
   overflow: hidden;
+  position: relative;
+}
+
+/* Aurora bands */
+.team::before,
+.team::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+}
+.team::before {
+  width: 70%;
+  height: 300px;
+  top: 10%;
+  left: -10%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(23,133,132,0.5) 30%,
+    rgba(29,190,189,0.35) 50%,
+    rgba(52,168,83,0.25) 70%,
+    transparent 100%
+  );
+  animation: aurora-1 10s ease-in-out infinite alternate;
+}
+.team::after {
+  width: 65%;
+  height: 260px;
+  bottom: 12%;
+  right: -8%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(23,85,84,0.4) 25%,
+    rgba(23,133,132,0.45) 55%,
+    rgba(29,190,189,0.2) 80%,
+    transparent 100%
+  );
+  animation: aurora-2 13s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-1 {
+  0%   { transform: translateX(0) translateY(0) scaleX(1); opacity: 0.45; }
+  33%  { transform: translateX(6%) translateY(20px) scaleX(1.05); opacity: 0.6; }
+  66%  { transform: translateX(-4%) translateY(-15px) scaleX(0.96); opacity: 0.5; }
+  100% { transform: translateX(8%) translateY(10px) scaleX(1.08); opacity: 0.55; }
+}
+/* Third mid band */
+.team__aurora {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(100px);
+  width: 50%;
+  height: 220px;
+  top: 45%;
+  left: 25%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(23,133,132,0.2) 35%,
+    rgba(52,168,83,0.18) 60%,
+    transparent 100%
+  );
+  animation: aurora-3 16s ease-in-out infinite alternate;
+}
+@keyframes aurora-3 {
+  0%   { transform: translateX(0) translateY(0); opacity: 0.35; }
+  50%  { transform: translateX(-5%) translateY(25px); opacity: 0.55; }
+  100% { transform: translateX(6%) translateY(-20px); opacity: 0.3; }
+}
+
+@keyframes aurora-2 {
+  0%   { transform: translateX(0) translateY(0) scaleX(1); opacity: 0.4; }
+  40%  { transform: translateX(-7%) translateY(-18px) scaleX(1.06); opacity: 0.55; }
+  70%  { transform: translateX(5%) translateY(22px) scaleX(0.94); opacity: 0.45; }
+  100% { transform: translateX(-9%) translateY(-10px) scaleX(1.1); opacity: 0.6; }
 }
 .team .section-h2 { margin-top: 16px; margin-bottom: 64px; }
 .team__em {
