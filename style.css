@@ -2698,7 +2698,11 @@ body {
   gap: 12px;
   margin-bottom: 24px;
 }
-.pricing__plan-icon { font-size: 22px; }
+.pricing__plan-icon {
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+}
 .pricing__plan-name {
   font-size: 20px;
   font-weight: 700;
@@ -2719,7 +2723,7 @@ body {
 }
 .pricing__amount {
   font-size: 44px;
-  font-weight: 800;
+  font-weight: 400;
   color: var(--white);
   line-height: 1;
   transition: opacity 0.2s;
