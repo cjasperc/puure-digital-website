@@ -2073,8 +2073,8 @@ body {
   width: max-content;
   will-change: transform;
 }
-.testi__inner--fwd { animation: testi-fwd 42s linear infinite; }
-.testi__inner--rev { animation: testi-rev 50s linear infinite; }
+.testi__inner--fwd { animation: testi-fwd 35s linear infinite; }
+.testi__inner--rev { animation: testi-rev 42s linear infinite; }
 .testi__track:hover .testi__inner { animation-play-state: paused; }
 
 @keyframes testi-fwd {
@@ -2089,7 +2089,7 @@ body {
 /* Individual card */
 .testi__card {
   flex-shrink: 0;
-  width: 340px;
+  width: 400px;
   padding: 28px 28px 24px;
   background: rgba(255,255,255,0.035);
   border: 1px solid rgba(255,255,255,0.07);
@@ -2134,10 +2134,6 @@ body {
   font-weight: 500;
   line-height: 1.72;
   color: rgba(255,255,255,0.82);
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   margin: 0 0 20px;
 }
 .testi__card-footer {
