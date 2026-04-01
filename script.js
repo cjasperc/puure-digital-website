@@ -940,15 +940,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Lenis smooth scroll
   const lenis = new Lenis({
-    duration:        1.1,
-    easing:          t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    lerp:            0.1,       // 1.1.x API — interpolation factor (0.1 = smooth)
     smoothWheel:     true,
     wheelMultiplier: 0.85,
     touchMultiplier: 1.5,
+    infinite:        false,
   });
-  lenis.on('scroll', ScrollTrigger.update);
+  // Sync Lenis raf with GSAP ticker for ScrollTrigger compatibility
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
+  lenis.on('scroll', ScrollTrigger.update);
   lenis.on('scroll', ({ scroll }) => {
     nav.classList.toggle('scrolled', scroll > 10);
     if (nav.classList.contains('nav--open')) closeMenu();
