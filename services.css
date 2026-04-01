@@ -124,7 +124,7 @@
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #5ee8d8;
+  color: #1eb5a8;
   margin-bottom: 28px;
 }
 .sv-hero__label::before {
@@ -132,7 +132,7 @@
   display: inline-block;
   width: 28px;
   height: 1px;
-  background: #5ee8d8;
+  background: #1eb5a8;
 }
 .sv-hero__h1 {
   font-family: 'Urbanist', sans-serif;
@@ -147,8 +147,8 @@
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: #5ee8d8;
-  text-shadow: 0 0 18px rgba(94,232,216,0.55), 0 0 40px rgba(94,232,216,0.25);
+  color: #1eb5a8;
+  text-shadow: 0 0 18px rgba(30,181,168,0.25), 0 0 40px rgba(30,181,168,0.1);
 }
 .sv-hero__sub {
   font-size: 18px;
@@ -202,14 +202,14 @@
 }
 .sv-card:hover {
   background: rgba(255,255,255,0.055);
-  border-color: rgba(94,232,216,0.15);
+  border-color: rgba(30,181,168,0.07);
   transform: translateY(-4px);
 }
 .sv-card__icon {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: rgba(94,232,216,0.08);
+  background: rgba(30,181,168,0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -218,7 +218,7 @@
 .sv-card__icon svg {
   width: 20px;
   height: 20px;
-  color: #5ee8d8;
+  color: #1eb5a8;
 }
 .sv-card__title {
   font-size: 15px;
@@ -262,7 +262,7 @@
   left: 20px;
   right: 20px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(94,232,216,0.3), rgba(94,232,216,0.05));
+  background: linear-gradient(90deg, rgba(30,181,168,0.12), rgba(30,181,168,0.05));
   pointer-events: none;
 }
 .sv-step {
@@ -272,7 +272,7 @@
 .sv-step__num {
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: #5ee8d8;
+  color: #1eb5a8;
   margin-bottom: 16px;
   display: block;
 }
@@ -372,7 +372,7 @@
 }
 
 /* ── Nav active ── */
-.nav__link--active { color: #5ee8d8 !important; }
+.nav__link--active { color: #1eb5a8 !important; }
 
 /* ── Card tilt context ── */
 .sv-included__grid {

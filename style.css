@@ -2419,8 +2419,8 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: #5ee8d8;
-  text-shadow: 0 0 18px rgba(94,232,216,0.55), 0 0 40px rgba(94,232,216,0.25);
+  color: #1eb5a8;
+  text-shadow: 0 0 18px rgba(30,181,168,0.25), 0 0 40px rgba(30,181,168,0.1);
 }
 .team__grid {
   display: flex;
@@ -2550,8 +2550,8 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: #5ee8d8;
-  text-shadow: 0 0 18px rgba(94,232,216,0.55), 0 0 40px rgba(94,232,216,0.25);
+  color: #1eb5a8;
+  text-shadow: 0 0 18px rgba(30,181,168,0.25), 0 0 40px rgba(30,181,168,0.1);
 }
 
 /* Animated BG blob */
@@ -3773,14 +3773,14 @@ body {
     position: fixed;
     top: 0; left: 0;
     width: 12px; height: 12px;
-    background: #5ee8d8;
+    background: #1eb5a8;
     border-radius: 50%;
     pointer-events: none;
     z-index: 99999;
     transform: translate(-50%, -50%);
     transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
     will-change: transform;
-    box-shadow: 0 0 10px rgba(94,232,216,0.5);
+    box-shadow: 0 0 10px rgba(30,181,168,0.2);
   }
 
   .cursor__ring { display: none; }
@@ -3788,7 +3788,7 @@ body {
   /* Hover — shrinks slightly, glow intensifies */
   .cursor--hover .cursor__dot {
     width: 8px; height: 8px;
-    box-shadow: 0 0 14px rgba(94,232,216,0.7);
+    box-shadow: 0 0 14px rgba(30,181,168,0.7);
   }
 
   /* Click flash */

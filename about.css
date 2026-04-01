@@ -45,8 +45,8 @@
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: #5ee8d8;
-  text-shadow: 0 0 40px rgba(94,232,216,0.3);
+  color: #1eb5a8;
+  text-shadow: 0 0 40px rgba(30,181,168,0.12);
 }
 
 .ab-hero__meta {
@@ -76,7 +76,7 @@
 .ab-hero__scroll-line {
   width: 1px;
   height: 60px;
-  background: linear-gradient(180deg, rgba(94,232,216,0.5), transparent);
+  background: linear-gradient(180deg, rgba(30,181,168,0.2), transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }
 @keyframes scrollPulse {
@@ -103,8 +103,8 @@
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: #5ee8d8;
-  text-shadow: 0 0 24px rgba(94,232,216,0.4);
+  color: #1eb5a8;
+  text-shadow: 0 0 24px rgba(30,181,168,0.15);
 }
 
 /* ── 3. VALUES ── */
@@ -143,7 +143,7 @@
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 0;
-  background: rgba(94,232,216,0.04);
+  background: rgba(30,181,168,0.03);
   transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
 }
 .ab-value-row:hover::before { width: 100%; }
@@ -155,7 +155,7 @@
   font-family: 'Urbanist', sans-serif;
   transition: color 0.3s;
 }
-.ab-value-row:hover .ab-value-row__num { color: #5ee8d8; }
+.ab-value-row:hover .ab-value-row__num { color: #1eb5a8; }
 
 .ab-value-row__body { position: relative; z-index: 1; }
 
@@ -187,7 +187,7 @@
   text-align: right;
 }
 .ab-value-row:hover .ab-value-row__arrow {
-  color: #5ee8d8;
+  color: #1eb5a8;
   transform: translate(3px, -3px);
 }
 
@@ -273,9 +273,9 @@
 }
 .ab-person__linkedin svg { width: 14px; height: 14px; }
 .ab-person__linkedin:hover {
-  border-color: #5ee8d8;
-  color: #5ee8d8;
-  background: rgba(94,232,216,0.06);
+  border-color: #1eb5a8;
+  color: #1eb5a8;
+  background: rgba(30,181,168,0.04);
 }
 
 /* ── 5. PULL QUOTE ── */
