@@ -159,18 +159,6 @@
 
   <div class="cursor__dot" id="cursorDot"></div>
   <div class="cursor__ring" id="cursorRing"></div>
-  <script src="../our-work.js"></script>
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
-    const burger = document.getElementById('navBurger');
-    const mobile = document.getElementById('navMobile');
-    burger.addEventListener('click', () => {
-      const open = burger.getAttribute('aria-expanded') === 'true';
-      burger.setAttribute('aria-expanded', String(!open));
-      mobile.setAttribute('aria-hidden', String(open));
-      nav.classList.toggle('nav--open', !open);
-    });
-  </script>
+  <script src="../services.js"></script>
 </body>
 </html>

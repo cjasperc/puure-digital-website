@@ -374,6 +374,28 @@
 /* ── Nav active ── */
 .nav__link--active { color: #5ee8d8 !important; }
 
+/* ── Card tilt context ── */
+.sv-included__grid {
+  perspective: 1000px;
+}
+.sv-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ── CTA button transition ── */
+.sv-hero__cta .btn,
+.sv-cta .btn {
+  transition: transform 0.15s ease, background 0.25s, color 0.25s, border-color 0.25s;
+  will-change: transform;
+}
+
+/* ── Step number ── */
+.sv-step__num {
+  display: inline-block;
+  transition: text-shadow 0.3s ease, transform 0.3s ease;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .sv-hero { padding: 130px 20px 80px; }
