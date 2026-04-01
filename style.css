@@ -3783,39 +3783,18 @@ body {
     box-shadow: 0 0 10px rgba(94,232,216,0.5);
   }
 
-  /* Trailing ring — subtle, same teal */
-  .cursor__ring {
-    position: fixed;
-    top: 0; left: 0;
-    width: 32px; height: 32px;
-    border: 1.5px solid rgba(94,232,216,0.35);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99998;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, border-color 0.25s ease, opacity 0.25s ease;
-    will-change: transform;
-  }
+  .cursor__ring { display: none; }
 
-  /* Hover — circle shrinks slightly, ring tightens */
+  /* Hover — shrinks slightly, glow intensifies */
   .cursor--hover .cursor__dot {
     width: 8px; height: 8px;
-    background: #5ee8d8;
     box-shadow: 0 0 14px rgba(94,232,216,0.7);
-  }
-  .cursor--hover .cursor__ring {
-    width: 20px; height: 20px;
-    border-color: rgba(94,232,216,0.6);
   }
 
   /* Click flash */
   .cursor--click .cursor__dot {
     width: 16px; height: 16px;
     opacity: 0.7;
-  }
-  .cursor--click .cursor__ring {
-    width: 42px; height: 42px;
-    opacity: 0;
   }
 }
 
