@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="services.css" />
 </head>
 <body>
 
@@ -21,7 +22,19 @@
         <img src="assets/PUURE DIGITAL LOGO white and green.png" alt="Puure Digital" />
       </a>
       <div class="nav__links">
-        <a href="#system">How It Works</a>
+        <div class="nav__dropdown">
+          <button class="nav__dropdown-trigger">Services
+            <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="nav__dropdown-menu">
+            <a href="services/social-media-management.html">Social Media Management</a>
+            <a href="services/ai-content-creation.html">AI Enhanced Content Creation</a>
+            <a href="services/video-production.html">Video Production</a>
+            <a href="services/content-creation.html">Content Creation</a>
+            <a href="services/paid-ads.html">Paid Ads</a>
+            <a href="services/web-design.html">Web Design</a>
+          </div>
+        </div>
         <a href="#results">Results</a>
         <a href="our-work.html">Our Work</a>
         <a href="#faq">FAQ</a>
@@ -35,7 +48,13 @@
     </div>
     <!-- Mobile menu drawer -->
     <div class="nav__mobile" id="navMobile" aria-hidden="true">
-      <a href="#system">How It Works</a>
+      <span class="nav__mobile-services-label">Services</span>
+      <a href="services/social-media-management.html">Social Media Management</a>
+      <a href="services/ai-content-creation.html">AI Enhanced Content Creation</a>
+      <a href="services/video-production.html">Video Production</a>
+      <a href="services/content-creation.html">Content Creation</a>
+      <a href="services/paid-ads.html">Paid Ads</a>
+      <a href="services/web-design.html">Web Design</a>
       <a href="#results">Results</a>
       <a href="our-work.html">Our Work</a>
       <a href="#faq">FAQ</a>
