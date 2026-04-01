@@ -940,18 +940,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Lenis smooth scroll
   const lenis = new Lenis({
-    duration:        0.9,
+    duration:        1.1,
     easing:          t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel:     true,
-    wheelMultiplier: 0.9,
+    wheelMultiplier: 0.85,
     touchMultiplier: 1.5,
   });
+  lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
-
-  // Single Lenis scroll handler — combines ScrollTrigger update + nav state
   lenis.on('scroll', ({ scroll }) => {
-    ScrollTrigger.update();
     nav.classList.toggle('scrolled', scroll > 10);
     if (nav.classList.contains('nav--open')) closeMenu();
   });
@@ -1116,13 +1114,25 @@ function initCursor() {
   // Only on fine pointer devices (not touch)
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
-  let mouseX = 0, mouseY = 0;
-  let ringX  = 0, ringY  = 0;
+  let mouseX = -9999, mouseY = -9999;
+  let ringX  = -9999, ringY  = -9999;
   let rafId;
+  let firstMove = true;
+
+  dot.style.opacity  = '0';
+  ring.style.opacity = '0';
 
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+    if (firstMove) {
+      // Snap ring to cursor on first move — no crawl from corner
+      ringX = mouseX;
+      ringY = mouseY;
+      firstMove = false;
+      dot.style.opacity  = '1';
+      ring.style.opacity = '1';
+    }
     dot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
   });
 
