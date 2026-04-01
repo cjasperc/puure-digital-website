@@ -47,21 +47,26 @@
 
 .nav__dropdown-menu {
   position: absolute;
-  top: calc(100% + 16px);
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%);
   width: 240px;
+  padding: 20px 8px 8px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 300;
+}
+.nav__dropdown-menu::before {
+  content: '';
+  position: absolute;
+  inset: 16px 0 0;
   background: rgba(10,10,10,0.96);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: 14px;
-  padding: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(-50%) translateY(8px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 300;
+  z-index: -1;
 }
 .nav__dropdown:hover .nav__dropdown-menu {
   opacity: 1;
