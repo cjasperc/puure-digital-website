@@ -154,8 +154,8 @@ async function runHeroSequence(words) {
   const ctas     = $('#heroCtas');
   const stats    = $('#heroStats');
 
-  // [1] Eyebrow — 500ms
-  await delay(500);
+  // [1] Eyebrow — 150ms
+  await delay(150);
   eyebrow.classList.add('anim-in');
 
   // [2] Headline words — start 820ms, stagger 88ms
@@ -386,44 +386,50 @@ function initHeroCanvas() {
     };
   }
 
+  let canvasVisible = true;
+  const visObs = new IntersectionObserver(entries => {
+    canvasVisible = entries[0].isIntersecting;
+    if (canvasVisible && !animId) tick();
+  }, { threshold: 0 });
+  visObs.observe(canvas);
+
   function tick() {
+    if (!canvasVisible) { animId = null; return; }
     ctx.clearRect(0, 0, W, H);
 
-    // Connections — use squared distance to avoid sqrt per pair
+    // Batch all connections into one path per opacity bucket — single stroke call
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const dx  = nodes[i].x - nodes[j].x;
         const dy  = nodes[i].y - nodes[j].y;
         const dSq = dx * dx + dy * dy;
         if (dSq < CONNECT_DIST_SQ) {
-          const alpha = (1 - Math.sqrt(dSq) / CONNECT_DIST) * 0.05;
-          ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
         }
       }
     }
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.stroke();
 
-    // Nodes
+    // Nodes — update physics + draw
+    const REPEL_SQ = 110 * 110;
     nodes.forEach(n => {
-      // Mouse repel — gentle push away
-      const dx = n.x - mouseX, dy = n.y - mouseY;
-      const d  = Math.sqrt(dx * dx + dy * dy);
-      if (d < 110 && d > 0) {
-        const f = (110 - d) / 110 * 0.009;
-        n.vx += (dx / d) * f;
-        n.vy += (dy / d) * f;
+      // Mouse repel — squared distance, sqrt only when inside range
+      const mdx = n.x - mouseX, mdy = n.y - mouseY;
+      const mdSq = mdx * mdx + mdy * mdy;
+      if (mdSq < REPEL_SQ && mdSq > 0) {
+        const md = Math.sqrt(mdSq);
+        const f  = (110 - md) / 110 * 0.009;
+        n.vx += (mdx / md) * f;
+        n.vy += (mdy / md) * f;
       }
 
-      n.vx *= 0.985;
-      n.vy *= 0.985;
-      n.x  += n.vx;
-      n.y  += n.vy;
+      n.vx *= 0.985; n.vy *= 0.985;
+      n.x  += n.vx;  n.y  += n.vy;
 
-      // Wrap edges
       if (n.x > W + 20) n.x = -20;
       if (n.x < -20)    n.x = W + 20;
       if (n.y > H + 20) n.y = -20;
@@ -492,7 +498,7 @@ function initHeroScroll() {
       trigger: '.hero',
       start: 'top top',
       end: '60% top',
-      scrub: 1.5,
+      scrub: 0.8,
     }
   });
 
@@ -505,7 +511,7 @@ function initHeroScroll() {
       trigger: '.hero',
       start: '10% top',
       end: '65% top',
-      scrub: 1,
+      scrub: 0.5,
     }
   });
 }
@@ -674,7 +680,7 @@ function initProblemSection() {
     trigger:   section,
     start:     'top top',
     end:       'bottom bottom',
-    scrub:     1,            // 1s lag — weighted, deliberate feel
+    scrub:     0.5,            // 1s lag — weighted, deliberate feel
     animation: tl,
   });
 }
@@ -744,9 +750,9 @@ function initSystemSection() {
   ScrollTrigger.create({
     trigger: section,
     start: 'top top',
-    end: `+=${window.innerHeight * 2}`,
+    end: `+=${window.innerHeight * 1.4}`,
     pin: true,
-    scrub: 1,
+    scrub: 0.5,
     onUpdate: self => {
       const p = self.progress;
       if (p < 0.33)      activate(0, true);
@@ -1064,7 +1070,7 @@ function initRoadmap() {
               trigger: '#roadmap',
               start: 'top 80%',
               end: 'bottom 60%',
-              scrub: 1.2,
+              scrub: 0.6,
             }
           });
         }
@@ -1084,7 +1090,7 @@ function initRoadmap() {
             trigger: '#roadmap',
             start: 'top 80%',
             end: 'bottom 60%',
-            scrub: 1.2,
+            scrub: 0.6,
           }
         }
       );
