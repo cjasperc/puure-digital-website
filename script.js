@@ -365,8 +365,9 @@ function initHeroCanvas() {
   const ctx = canvas.getContext('2d');
   let W, H, nodes = [], animId;
   let mouseX = -9999, mouseY = -9999;
-  const COUNT = 55;
-  const CONNECT_DIST = 150;
+  const COUNT = 32;
+  const CONNECT_DIST = 140;
+  const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
 
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
@@ -388,18 +389,19 @@ function initHeroCanvas() {
   function tick() {
     ctx.clearRect(0, 0, W, H);
 
-    // Connections
+    // Connections — use squared distance to avoid sqrt per pair
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const d  = Math.sqrt(dx * dx + dy * dy);
-        if (d < CONNECT_DIST) {
+        const dx  = nodes[i].x - nodes[j].x;
+        const dy  = nodes[i].y - nodes[j].y;
+        const dSq = dx * dx + dy * dy;
+        if (dSq < CONNECT_DIST_SQ) {
+          const alpha = (1 - Math.sqrt(dSq) / CONNECT_DIST) * 0.05;
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(255,255,255,${(1 - d / CONNECT_DIST) * 0.055})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+          ctx.lineWidth = 0.5;
           ctx.stroke();
         }
       }
@@ -438,22 +440,33 @@ function initHeroCanvas() {
     animId = requestAnimationFrame(tick);
   }
 
-  // Track mouse across the hero section
+  // Track mouse — throttled via rAF
   const hero = canvas.closest('.hero');
   if (hero) {
+    let mousePending = false;
     hero.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+      if (mousePending) return;
+      mousePending = true;
+      requestAnimationFrame(() => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        mousePending = false;
+      });
     }, { passive: true });
     hero.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
   }
 
+  // Debounced resize
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    cancelAnimationFrame(animId);
-    resize();
-    nodes = Array.from({ length: COUNT }, makeNode);
-    tick();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      cancelAnimationFrame(animId);
+      resize();
+      nodes = Array.from({ length: COUNT }, makeNode);
+      tick();
+    }, 150);
   }, { passive: true });
 
   resize();
@@ -927,19 +940,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Lenis smooth scroll
   const lenis = new Lenis({
-    duration:        1.1,
+    duration:        0.9,
     easing:          t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel:     true,
-    wheelMultiplier: 0.85,
+    wheelMultiplier: 0.9,
     touchMultiplier: 1.5,
   });
-  // Connect Lenis → GSAP ScrollTrigger
-  lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
-  // Nav scroll state — transparent over hero, solid after
-  const heroEl = document.getElementById('top');
+
+  // Single Lenis scroll handler — combines ScrollTrigger update + nav state
   lenis.on('scroll', ({ scroll }) => {
+    ScrollTrigger.update();
     nav.classList.toggle('scrolled', scroll > 10);
     if (nav.classList.contains('nav--open')) closeMenu();
   });
@@ -1177,16 +1189,23 @@ function initPricing() {
     });
   });
 
-  // 3D tilt on cards
+  // 3D tilt on cards — throttled via rAF
   document.querySelectorAll('.pricing__card').forEach(card => {
+    let tiltPending = false;
     card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `translateY(-6px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
-      card.style.transition = 'transform 0.1s ease, border-color 0.3s, box-shadow 0.4s';
+      if (tiltPending) return;
+      tiltPending = true;
+      requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `translateY(-6px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+        card.style.transition = 'transform 0.1s ease, border-color 0.3s, box-shadow 0.4s';
+        tiltPending = false;
+      });
     });
     card.addEventListener('mouseleave', () => {
+      tiltPending = false;
       card.style.transform = '';
       card.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.4s';
     });
