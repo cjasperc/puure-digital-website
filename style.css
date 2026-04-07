@@ -3957,6 +3957,130 @@ body {
   }
 }
 
+/* ============================================================
+   MOBILE UX FIXES
+   Applied on top of existing breakpoints to address issues:
+   - Problem section missing mobile padding
+   - Hero sub text below 16px minimum
+   - Testimonial dots too small to tap
+   - AI feat section missing mobile padding
+   - Service item descriptions always visible on touch
+   - Testi slider margin too heavy on mobile
+   - Accessibility tap-target improvements
+============================================================ */
+
+/* ── Problem section — restore mobile padding (was missing from section list) ── */
+@media (max-width: 768px) {
+  .pb { padding: 72px clamp(20px, 5vw, 48px); }
+  .pb__header { margin-bottom: 48px; }
+  .pb__rows   { margin-bottom: 48px; }
+}
+
+@media (max-width: 600px) {
+  .pb          { padding: 56px 16px; }
+  .pb__header  { margin-bottom: 32px; }
+  .pb__rows    { margin-bottom: 32px; }
+  .pb__sub     { font-size: 15px; }
+  .pb__close-line { font-size: 15px; }
+  .pb__row-desc   { font-size: 14px; }
+  .pb__close   { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .pb { padding: 48px 14px; }
+}
+
+/* ── Hero sub text — raise minimum from 13.5px ── */
+@media (max-width: 600px) {
+  .hero__sub { font-size: 15px; line-height: 1.72; }
+}
+
+@media (max-width: 480px) {
+  .hero__sub { font-size: 15px; }
+}
+
+/* ── AI Enhancement — add to mobile padding list ── */
+@media (max-width: 768px) {
+  .ai-feat { padding: 72px clamp(20px, 5vw, 48px); }
+}
+
+@media (max-width: 600px) {
+  .ai-feat { padding: 56px 16px; }
+  .ai-feat__p { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  .ai-feat { padding: 48px 14px; }
+}
+
+/* ── Testimonial dots — increase tap target to ≥44px ── */
+.testi__dot {
+  box-sizing: content-box;
+  padding: 19px;
+  background-clip: content-box;
+}
+
+/* ── Testimonial arrows — increase to 44px minimum ── */
+.testi__arrow {
+  width: 44px;
+  height: 44px;
+}
+
+/* ── Testimonial slider — reduce top margin on mobile ── */
+@media (max-width: 768px) {
+  .testi__slider { margin-top: 48px; }
+}
+
+@media (max-width: 600px) {
+  .testi__slider { margin-top: 36px; padding: 0 16px; }
+}
+
+/* ── Testimonial slides — switch to relative on mobile to prevent clipping ── */
+@media (max-width: 600px) {
+  .testi__slides  { min-height: 0; }
+  .testi__slide   { position: relative; inset: unset; display: none; }
+  .testi__slide.is-active { display: flex; }
+}
+
+/* ── Service list — always show description text on touch devices ── */
+@media (hover: none) {
+  .svc__desc {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 12px;
+  }
+  .svc__item { padding-left: 28px; }
+  .svc__item::before { transform: scaleY(1); }
+  .svc__icon { display: none; }
+}
+
+/* ── Back-to-top — minimum 44px touch height ── */
+.btt { min-height: 44px; }
+
+/* ── FAB tooltips — suppress on touch (they never fire) ── */
+@media (hover: none) {
+  .fab__tooltip { display: none; }
+}
+
+/* ── Process deliverable badge — wrap on narrow screens ── */
+@media (max-width: 480px) {
+  .process__deliverable {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* ── Footer links — minimum comfortable reading size ── */
+@media (max-width: 480px) {
+  .footer__col a,
+  .footer__col span { font-size: 14px; }
+}
+
+/* ── Hero trust bar — slightly larger text on mobile ── */
+@media (max-width: 480px) {
+  .hero__trust-text { font-size: 13px; }
+}
+
 /* Reduce motion: respect user preference */
 @media (prefers-reduced-motion: reduce) {
   .word-wrap .word         { transition: none; }
