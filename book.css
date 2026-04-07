@@ -5,15 +5,15 @@
 .bk {
   min-height: 100vh;
   background: var(--d-bg);
-  padding: 140px clamp(24px, 6vw, 100px) 100px;
+  padding: 140px clamp(24px, 6vw, 80px) 100px;
 }
 
 .bk__inner {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 2fr 3fr;
+  gap: 60px;
   align-items: start;
 }
 
@@ -30,7 +30,7 @@
 .bk__h1 {
   font-family: 'Urbanist', sans-serif;
   font-size: clamp(26px, 3.5vw, 42px);
-  font-weight: 700;
+  font-weight: 450;
   line-height: 1.06;
   letter-spacing: -0.03em;
   color: #fff;
@@ -105,11 +105,29 @@
 
 
 /* ── Responsive ── */
-@media (max-width: 860px) {
+@media (max-width: 900px) {
+  .bk {
+    padding: 100px clamp(20px, 5vw, 48px) 80px;
+  }
   .bk__inner {
     grid-template-columns: 1fr;
-    gap: 52px;
+    gap: 40px;
   }
   .bk__form-wrap { position: static; }
   .bk__sub { max-width: 100%; }
+  .bk__h1 { font-size: clamp(26px, 6vw, 38px); }
+}
+
+@media (max-width: 480px) {
+  .bk {
+    padding: 90px 20px 60px;
+  }
+  .bk__meta {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .bk__form-inner {
+    border-radius: 12px;
+    min-height: 600px;
+  }
 }
