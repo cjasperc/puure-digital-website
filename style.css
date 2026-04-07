@@ -3441,7 +3441,7 @@ body {
   .services, .results,
   .testimonials, .faq,
   .instagram, .system,
-  .process             { padding: 72px 0; }
+  .process, .team      { padding: 72px 0; }
   .cta                 { padding: 96px 0; }
 
   /* CTA glass panel */
@@ -3522,7 +3522,7 @@ body {
   .services, .results,
   .testimonials, .faq,
   .instagram, .system,
-  .process             { padding: 56px 0; }
+  .process, .team      { padding: 56px 0; }
   .cta                 { padding: 80px 0; }
   .footer              { padding: 48px 0 28px; }
   .trust               { padding: 24px 0; }
@@ -3609,7 +3609,7 @@ body {
   .services, .results,
   .testimonials, .faq,
   .instagram, .system,
-  .process             { padding: 48px 0; }
+  .process, .team      { padding: 48px 0; }
   .pj                  { height: 300vh; }
   .cta                 { padding: 72px 0; }
 
@@ -4019,11 +4019,18 @@ body {
   .ai-feat { padding: 48px 14px; }
 }
 
-/* ── Testimonial dots — increase tap target to ≥44px ── */
+/* ── Testimonial dots — increase tap target via pseudo-element ── */
 .testi__dot {
-  box-sizing: content-box;
-  padding: 19px;
-  background-clip: content-box;
+  position: relative;
+}
+.testi__dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
 }
 
 /* ── Testimonial arrows — increase to 44px minimum ── */
