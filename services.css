@@ -137,7 +137,7 @@
 .sv-hero__h1 {
   font-family: 'Urbanist', sans-serif;
   font-size: clamp(44px, 7vw, 88px);
-  font-weight: 700;
+  font-weight: 450;
   line-height: 1.02;
   color: #fff;
   margin: 0 0 28px;
@@ -179,7 +179,7 @@
 .sv-included__h2 {
   font-family: 'Urbanist', sans-serif;
   font-size: clamp(28px, 4vw, 44px);
-  font-weight: 700;
+  font-weight: 450;
   color: #fff;
   margin: 0 0 12px;
 }
@@ -245,7 +245,7 @@
 .sv-process__h2 {
   font-family: 'Urbanist', sans-serif;
   font-size: clamp(28px, 4vw, 44px);
-  font-weight: 700;
+  font-weight: 450;
   color: #fff;
   margin: 0 0 56px;
 }
@@ -292,57 +292,70 @@
 /* ── Results / social proof ── */
 .sv-results {
   padding: 80px clamp(24px, 6vw, 100px);
-  background: var(--d-surface);
-  border-top: 1px solid rgba(255,255,255,0.05);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: var(--d-bg);
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 .sv-results__inner {
-  max-width: 1100px;
+  max-width: 860px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 80px;
-  flex-wrap: wrap;
+  gap: 52px;
+  text-align: center;
+}
+.sv-results__quote {
+  max-width: 680px;
+}
+.sv-results__quote blockquote {
+  font-family: 'Urbanist', sans-serif;
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.65;
+  color: rgba(255,255,255,0.82);
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 0 16px;
+}
+.sv-results__quote cite {
+  font-size: 12px;
+  color: rgba(255,255,255,0.32);
+  font-style: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .sv-results__stats {
   display: flex;
-  gap: 56px;
   flex-wrap: wrap;
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  overflow: hidden;
 }
+.sv-results__stats > div {
+  flex: 1;
+  min-width: 120px;
+  padding: 32px 20px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sv-results__stats > div:last-child { border-right: none; }
 .sv-stat__num {
   font-family: 'Urbanist', sans-serif;
-  font-size: 48px;
-  font-weight: 700;
+  font-size: 38px;
+  font-weight: 450;
   color: #fff;
   line-height: 1;
   display: block;
 }
 .sv-stat__label {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  color: rgba(255,255,255,0.38);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-top: 4px;
+  margin-top: 8px;
   display: block;
-}
-.sv-results__quote {
-  flex: 1;
-  min-width: 260px;
-}
-.sv-results__quote blockquote {
-  font-size: 17px;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.65);
-  font-style: italic;
-  margin: 0 0 12px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-}
-.sv-results__quote cite {
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  font-style: normal;
-  letter-spacing: 0.05em;
 }
 
 /* ── Bottom CTA ── */
@@ -354,10 +367,11 @@
 .sv-cta__h2 {
   font-family: 'Urbanist', sans-serif;
   font-size: clamp(32px, 5vw, 60px);
-  font-weight: 700;
+  font-weight: 450;
   color: #fff;
   margin: 0 0 20px;
   line-height: 1.1;
+  text-transform: capitalize;
 }
 .sv-cta__sub {
   font-size: 17px;
@@ -396,11 +410,26 @@
   transition: text-shadow 0.3s ease, transform 0.3s ease;
 }
 
+/* ── Desktop: centred hero ── */
+@media (min-width: 769px) {
+  .sv-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .sv-hero__h1 { max-width: 900px; }
+  .sv-hero__sub { max-width: 620px; }
+  .sv-hero__cta { justify-content: center; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .sv-hero { padding: 130px 20px 80px; }
   .sv-included, .sv-process, .sv-results, .sv-cta { padding-left: 20px; padding-right: 20px; }
-  .sv-results__inner { gap: 48px; }
+  .sv-results__inner { gap: 40px; }
+  .sv-results__stats > div { padding: 24px 16px; }
+  .sv-stat__num { font-size: 30px; }
   .sv-steps::before { display: none; }
   .sv-step { padding: 0 0 32px; }
 }

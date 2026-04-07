@@ -524,165 +524,45 @@ function initHeroScroll() {
 //  Fragment → alignment metaphor via GSAP + ScrollTrigger scrub
 // ============================================================
 function initProblemSection() {
-  const section = document.getElementById('probJourney');
+  const section = document.getElementById('problem');
   if (!section) return;
-
-  const intro   = document.getElementById('pjIntro');
-  const cards   = [
-    document.getElementById('pjCard0'),
-    document.getElementById('pjCard1'),
-    document.getElementById('pjCard2'),
-  ];
-  const stage   = document.getElementById('pjStage');
-  const resolve = document.getElementById('pjResolve');
-
-  if (!intro || !resolve || !stage) return;
-
-  // Reduced motion — show everything immediately
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    gsap.set([intro, ...cards, resolve], { opacity: 1, y: 0 });
+    section.classList.add('pb--revealed');
+    section.querySelectorAll('.pb__row').forEach(r => r.classList.add('pb--active'));
     return;
   }
 
-  // Set initial state
-  gsap.set(intro,   { opacity: 0, y: 18 });
-  gsap.set(cards,   { opacity: 0, y: 28 });
-  gsap.set(resolve, { opacity: 0, y: 0  });
+  const rows    = [...section.querySelectorAll('.pb__row')];
+  const rowsWrap = section.querySelector('.pb__rows');
 
-  // --- Scrubbed timeline ---
-  const tl = gsap.timeline();
-
-  // Intro fades in
-  tl.to(intro, { opacity: 1, y: 0, duration: 1.2, ease: 'none' }, 0);
-
-  // Cards stagger in one by one
-  cards.forEach((card, i) => {
-    tl.to(card, { opacity: 1, y: 0, duration: 1.0, ease: 'none' }, 1.4 + i * 1.3);
-  });
-
-  // Hold — all three visible
-  tl.to({}, { duration: 1.2 });
-
-  // Cards fall off the bottom one by one (right to left order)
-  [cards[2], cards[1], cards[0]].forEach((card, i) => {
-    tl.to(card, {
-      y: 280,
-      opacity: 0,
-      rotation: (i % 2 === 0 ? 6 : -6),
-      duration: 0.9,
-      ease: 'none'
-    }, `>-0.4`);
-  });
-
-  // Intro fades out
-  tl.to(intro, { opacity: 0, duration: 0.6, ease: 'none' }, '<+=0.1');
-
-  // Resolution comes in
-  tl.to(resolve, { opacity: 1, duration: 1.6, ease: 'none' }, '<+=0.2');
-
-  // Wrap resolve-a and resolve-b words in spans for glow effect
-  function wrapWords(el) {
-    if (!el) return [];
-    const spans = [];
-    // Snapshot to static array — avoids live NodeList mutation bugs
-    const nodes = [...el.childNodes];
-    nodes.forEach(node => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const words = node.textContent.split(/(\s+)/);
-        const frag = document.createDocumentFragment();
-        words.forEach(part => {
-          if (part.match(/^\s+$/)) {
-            frag.appendChild(document.createTextNode(part));
-          } else if (part) {
-            const span = document.createElement('span');
-            span.className = 'glow-word';
-            span.textContent = part;
-            frag.appendChild(span);
-            spans.push(span);
-          }
-        });
-        node.replaceWith(frag);
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        const isTeal = node.classList.contains('glow-teal');
-        const span = document.createElement('span');
-        span.className = 'glow-word' + (isTeal ? ' glow-teal' : '');
-        node.parentNode.insertBefore(span, node);
-        span.appendChild(node);
-        spans.push(span);
-      }
-    });
-    return spans;
-  }
-
-  const resolveA = resolve.querySelector('.pj__resolve-a');
-  const resolveB = resolve.querySelector('.pj__resolve-b');
-  const resolveC = resolve.querySelector('.pj__resolve-c');
-  const allWords = [...wrapWords(resolveA), ...wrapWords(resolveB), ...wrapWords(resolveC)];
-
-  // Scroll-driven word reveal — each word lights up as you scroll
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'bottom bottom+=200',
-    onEnter: () => resolve.classList.add('pj__resolve--active'),
-    onLeaveBack: () => resolve.classList.remove('pj__resolve--active'),
-  });
-
-  const total = allWords.length;
-  ScrollTrigger.create({
-    trigger: resolve,
-    start: 'top 80%',
-    end: 'bottom 30%',
-    scrub: 0.6,
-    onUpdate: (self) => {
-      const progress = self.progress;
-      const litCount = Math.round(progress * total);
-      allWords.forEach((word, i) => {
-        word.classList.toggle('glow-word--lit', i < litCount);
-      });
-    },
-  });
-
-  // Scroll-driven beam sweep — full viewport width, fixed position
-  const beam = document.getElementById('pjBeam');
-  const beamWrap = beam ? beam.parentElement : null;
-  if (beam && beamWrap) {
-    const vw = window.innerWidth;
-
-    // Keep beam vertical position aligned with resolve section centre
-    function updateBeamTop() {
-      const rect = resolve.getBoundingClientRect();
-      beamWrap.style.top = (rect.top + rect.height * 0.72 + window.scrollY) + 'px';
-      beamWrap.style.position = 'absolute';
+  // Section reveal on enter
+  const revealObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      section.classList.add('pb--revealed');
+      // Stagger first row active
+      setTimeout(() => rows[0] && rows[0].classList.add('pb--active'), 400);
+      revealObs.disconnect();
     }
-    updateBeamTop();
-    window.addEventListener('resize', updateBeamTop);
+  }, { threshold: 0.15 });
+  revealObs.observe(section);
 
-    gsap.fromTo(beam,
-      { x: -200 },
-      {
-        x: vw + 200,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: resolve,
-          start: 'top 75%',
-          end: 'bottom 15%',
-          scrub: 0.6,
-        }
-      }
-    );
+  // Scroll-driven active row
+  function updateActive() {
+    const vh = window.innerHeight;
+    let closest = null;
+    let closestDist = Infinity;
+
+    rows.forEach(row => {
+      const rect = row.getBoundingClientRect();
+      const mid  = rect.top + rect.height / 2;
+      const dist = Math.abs(mid - vh * 0.45);
+      if (dist < closestDist) { closestDist = dist; closest = row; }
+    });
+
+    rows.forEach(row => row.classList.toggle('pb--active', row === closest));
   }
 
-  // Hold at resolution
-  tl.to({}, { duration: 1.2 });
-
-  // --- Attach to scroll via ScrollTrigger ---
-  ScrollTrigger.create({
-    trigger:   section,
-    start:     'top top',
-    end:       'bottom bottom',
-    scrub:     0.5,            // 1s lag — weighted, deliberate feel
-    animation: tl,
-  });
+  window.addEventListener('scroll', updateActive, { passive: true });
 }
 
 // ============================================================
@@ -892,6 +772,8 @@ function initScrollFades() {
     '.faq__item',
     '.cta__h2', '.cta__sub',
     '.instagram__header',
+    '.ai-feat__copy', '.ai-feat__media',
+    '.svc__list', '.cta',
   ].join(', ');
 
   const els = $$(SELECTORS).filter(el => !HERO_IDS.has(el.id));
@@ -900,13 +782,18 @@ function initScrollFades() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('in');
+        entry.target.classList.add('in', 'in-view');
         io.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -28px 0px' });
 
   els.forEach(el => io.observe(el));
+
+  // Stagger ai-feat columns
+  const aiFeatMedia = document.querySelector('.ai-feat__media');
+  if (aiFeatMedia) aiFeatMedia.style.transitionDelay = '120ms';
+
 
   // Stagger children inside grid parents
   [
@@ -934,6 +821,51 @@ function initMarquee() {
       track.style.animationPlayState = 'running';
     }
   });
+}
+
+// ============================================================
+//  TRACING BEAM — full-page left-side scroll indicator
+// ============================================================
+function initTracingBeam() {
+  if (window.innerWidth <= 1100) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const svg  = document.getElementById('traceBeamSvg');
+  const fill = document.getElementById('traceBeamFill');
+  const dot  = document.getElementById('traceBeamDot');
+  if (!svg || !fill || !dot) return;
+
+  // Inject gradient def into SVG
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  defs.innerHTML = `
+    <linearGradient id="traceGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#1eb5a8" stop-opacity="0"/>
+      <stop offset="60%"  stop-color="#1eb5a8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#1eb5a8" stop-opacity="1"/>
+    </linearGradient>`;
+  svg.prepend(defs);
+
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const scrolled  = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll <= 0) return;
+
+    const progress = Math.min(scrolled / maxScroll, 1);
+    const h = svg.getBoundingClientRect().height;
+    const y = progress * h;
+
+    fill.setAttribute('y2', y);
+    dot.setAttribute('cy', y);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+
+  update();
 }
 
 // ============================================================
@@ -1008,6 +940,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 14. Custom cursor
   initCursor();
+
+  // 16. Back to top
+  initBackToTop();
+
+  // 17. Tracing beam
+  initTracingBeam();
 
   // 15. Roadmap scroll path
   initRoadmap();
@@ -1113,6 +1051,20 @@ function initRoadmap() {
   });
 }
 
+function initBackToTop() {
+  const btn = document.getElementById('btt');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    const nearBottom = (window.scrollY + window.innerHeight) >= (document.body.scrollHeight - 300);
+    btn.classList.toggle('btt--visible', nearBottom);
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 function initCursor() {
   const dot  = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
@@ -1122,6 +1074,7 @@ function initCursor() {
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
   let mouseX = -9999, mouseY = -9999;
+  let dotX   = -9999, dotY   = -9999;
   let ringX  = -9999, ringY  = -9999;
   let rafId;
   let firstMove = true;
@@ -1133,24 +1086,25 @@ function initCursor() {
     mouseX = e.clientX;
     mouseY = e.clientY;
     if (firstMove) {
-      // Snap ring to cursor on first move — no crawl from corner
-      ringX = mouseX;
-      ringY = mouseY;
+      dotX  = mouseX; dotY  = mouseY;
+      ringX = mouseX; ringY = mouseY;
       firstMove = false;
       dot.style.opacity  = '1';
       ring.style.opacity = '1';
     }
-    dot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
   });
 
-  // Ring trails with lerp
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.12;
-    ringY += (mouseY - ringY) * 0.12;
+  // Both dot and ring chase mouse with lerp — dot faster, ring slower
+  function animateCursor() {
+    dotX  += (mouseX - dotX)  * 0.18;
+    dotY  += (mouseY - dotY)  * 0.18;
+    ringX += (mouseX - ringX) * 0.10;
+    ringY += (mouseY - ringY) * 0.10;
+    dot.style.transform  = `translate(calc(${dotX}px - 50%),  calc(${dotY}px - 50%))`;
     ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
-    rafId = requestAnimationFrame(animateRing);
+    rafId = requestAnimationFrame(animateCursor);
   }
-  animateRing();
+  animateCursor();
 
   // Hover on interactive elements
   const interactives = 'a, button, [role="button"], input, textarea, select, label, .fab__trigger, .fab__child, .story__slide, .testi__arrow, .testi__dot, .faq__q';
@@ -1252,54 +1206,31 @@ function initFab() {
 }
 
 function initTestimonials() {
-  const overlay      = document.getElementById('testiOverlay');
-  const overlayQuote = document.getElementById('testiOverlayQuote');
-  const overlayName  = document.getElementById('testiOverlayName');
-  const overlayBiz   = document.getElementById('testiOverlayBiz');
-  const closeBtn     = document.getElementById('testiOverlayClose');
-  if (!overlay || !closeBtn) return;
+  const slides  = Array.from(document.querySelectorAll('.testi__slide'));
+  const dots    = Array.from(document.querySelectorAll('.testi__dot'));
+  const prevBtn = document.getElementById('testiPrev');
+  const nextBtn = document.getElementById('testiNext');
+  if (!slides.length || !prevBtn) return;
 
-  function openOverlay(card) {
-    overlayQuote.textContent = card.dataset.quote;
-    overlayName.textContent  = card.dataset.name;
-    overlayBiz.textContent   = card.dataset.biz;
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
+  let current = 0;
+  let timer;
+
+  function goTo(idx) {
+    slides[current].classList.remove('is-active');
+    dots[current].classList.remove('is-active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('is-active');
+    dots[current].classList.add('is-active');
   }
 
-  function closeOverlay() {
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
   }
 
-  const googleGSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" style="flex-shrink:0"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>`;
+  prevBtn.addEventListener('click', () => { goTo(current - 1); startTimer(); });
+  nextBtn.addEventListener('click', () => { goTo(current + 1); startTimer(); });
+  dots.forEach(dot => dot.addEventListener('click', () => { goTo(+dot.dataset.index); startTimer(); }));
 
-  document.querySelectorAll('.testi__card').forEach(card => {
-    // Inject stars after the quote mark
-    const mark = card.querySelector('.testi__card-mark');
-    if (mark && !card.querySelector('.testi__card-stars')) {
-      const stars = document.createElement('span');
-      stars.className = 'testi__card-stars';
-      stars.textContent = '★★★★★';
-      mark.insertAdjacentElement('afterend', stars);
-    }
-    // Inject Google badge in footer
-    const footer = card.querySelector('.testi__card-footer');
-    if (footer && !card.querySelector('.testi__card-google')) {
-      const badge = document.createElement('div');
-      badge.className = 'testi__card-google';
-      badge.innerHTML = `${googleGSvg}<span>Google Review</span>`;
-      footer.insertAdjacentElement('afterend', badge);
-    }
-    card.addEventListener('click', () => openOverlay(card));
-  });
-
-  closeBtn.addEventListener('click', closeOverlay);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeOverlay(); });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeOverlay();
-  });
+  startTimer();
 }
