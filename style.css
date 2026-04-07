@@ -1282,13 +1282,18 @@ body {
   align-items: center;
   gap: 28px;
   flex-wrap: wrap;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .pb__close-line {
-  font-size: clamp(14px, 1.3vw, 16px);
-  color: rgba(255,255,255,0.6);
+  font-family: 'Urbanist', sans-serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: rgba(255,255,255,0.88);
   margin: 0;
-  font-weight: 400;
 }
 
 .pb__close-cta {
