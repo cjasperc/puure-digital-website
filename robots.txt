@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /book.html
+Disallow: /thankyou.html
+
+Sitemap: https://www.puuredigital.co.uk/sitemap.xml

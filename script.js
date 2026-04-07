@@ -526,43 +526,49 @@ function initHeroScroll() {
 function initProblemSection() {
   const section = document.getElementById('problem');
   if (!section) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    section.classList.add('pb--revealed');
-    section.querySelectorAll('.pb__row').forEach(r => r.classList.add('pb--active'));
-    return;
-  }
 
-  const rows    = [...section.querySelectorAll('.pb__row')];
-  const rowsWrap = section.querySelector('.pb__rows');
+  const stack = section.querySelector('.pb__stack');
+  if (!stack) return;
 
   // Section reveal on enter
   const revealObs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
       section.classList.add('pb--revealed');
-      // Stagger first row active
-      setTimeout(() => rows[0] && rows[0].classList.add('pb--active'), 400);
       revealObs.disconnect();
     }
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
   revealObs.observe(section);
 
-  // Scroll-driven active row
-  function updateActive() {
-    const vh = window.innerHeight;
-    let closest = null;
-    let closestDist = Infinity;
-
-    rows.forEach(row => {
-      const rect = row.getBoundingClientRect();
-      const mid  = rect.top + rect.height / 2;
-      const dist = Math.abs(mid - vh * 0.45);
-      if (dist < closestDist) { closestDist = dist; closest = row; }
-    });
-
-    rows.forEach(row => row.classList.toggle('pb--active', row === closest));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    section.classList.add('pb--revealed');
+    return;
   }
 
-  window.addEventListener('scroll', updateActive, { passive: true });
+  const cards    = [...stack.querySelectorAll('.pb__card')];
+  // Must match CSS nth-child top values
+  const CARD_TOPS = [108, 136, 164];
+
+  function updateStack() {
+    const vh = window.innerHeight;
+
+    cards.forEach((card, i) => {
+      // Sum how much subsequent cards have slid on top of this one
+      let buried = 0;
+      for (let j = i + 1; j < cards.length; j++) {
+        const nextTop = cards[j].getBoundingClientRect().top;
+        const stickyTop = CARD_TOPS[j] ?? CARD_TOPS[CARD_TOPS.length - 1];
+        // 0 = next card just entering from below; 1 = fully stacked at sticky position
+        const progress = Math.max(0, Math.min(1, (vh - nextTop) / (vh - stickyTop)));
+        buried += progress;
+      }
+
+      const scale = Math.max(0.88, 1 - buried * 0.04);
+      card.style.transform = `scale(${scale.toFixed(4)})`;
+    });
+  }
+
+  window.addEventListener('scroll', updateStack, { passive: true });
+  updateStack();
 }
 
 // ============================================================

@@ -345,18 +345,18 @@ body {
   width: calc(100% - 40px);
   max-width: 1040px;
   z-index: 200;
-  background: rgba(8,8,8,0.88);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(10,18,16,0.52);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 100px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.06);
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, border-radius 0.3s ease;
 }
 .nav.scrolled {
-  background: rgba(5,5,5,0.96);
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 8px 48px rgba(0,0,0,0.65);
+  background: rgba(8,16,14,0.72);
+  border-color: rgba(255,255,255,0.13);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 .nav__inner {
@@ -760,6 +760,13 @@ body {
   align-items: center;
   gap: 8px;
   margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.hero__trust.anim-in {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .hero__trust-stars {
@@ -1167,110 +1174,133 @@ body {
   100% { background-position: 300% center; }
 }
 
-/* ── Rows ── */
-.pb__rows {
+/* ── Card Stack ── */
+.pb__stack {
   position: relative;
+  margin-bottom: 80px;
+}
+
+.pb__card {
+  position: sticky;
+  background: #0c1c1a;
+  border: 1px solid rgba(30,181,168,0.14);
+  border-radius: 24px;
+  padding: 44px;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/*
+  Staggered sticky tops + z-index:
+  Card N+1 slides in BELOW card N and covers it from underneath.
+  The 16px gap between tops lets the buried card's curved top edge
+  peek above the card in front — exactly like a physical card deck.
+*/
+.pb__card:nth-child(1) { top: 108px; z-index: 1; }
+.pb__card:nth-child(2) { top: 136px; z-index: 2; }
+.pb__card:nth-child(3) { top: 164px; z-index: 3; }
+
+.pb__card-header {
   display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding-left: 28px;
-  margin-bottom: 72px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
-/* Vertical rule */
-.pb__rule {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 1px;
-  background: rgba(255,255,255,0.08);
+.pb__card-tag {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1eb5a8;
+  background: rgba(30,181,168,0.1);
+  border: 1px solid rgba(30,181,168,0.22);
+  border-radius: 100px;
+  padding: 5px 13px;
 }
 
-.pb__rule::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1px;
-  height: 0%;
-  background: #1eb5a8;
-  transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.pb__rows.pb--revealed .pb__rule::after {
-  height: 100%;
-}
-
-/* Individual row */
-.pb__row {
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
-  padding: 32px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  opacity: 0.35;
-  transition: opacity 0.5s ease;
-  cursor: default;
-}
-.pb__row:last-child { border-bottom: none; }
-.pb__row.pb--active  { opacity: 1; }
-
-.pb__row-num {
+.pb__card-counter {
   font-family: 'Urbanist', sans-serif;
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  color: #1eb5a8;
-  min-width: 24px;
-  padding-top: 4px;
-  opacity: 0.7;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.22);
 }
 
-.pb__row-body {
+.pb__card-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(30,181,168,0.08);
+  border: 1px solid rgba(30,181,168,0.18);
+  border-radius: 14px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  color: #1eb5a8;
 }
 
-.pb__row-title {
+.pb__card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.pb__card-title {
   font-family: 'Urbanist', sans-serif;
-  font-size: clamp(18px, 2vw, 22px);
+  font-size: clamp(24px, 3vw, 34px);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: #fff;
-  margin: 0;
-  line-height: 1.2;
+  margin: 0 0 18px;
+  line-height: 1.15;
 }
 
-.pb__row-desc {
-  font-size: clamp(13px, 1.2vw, 15px);
-  line-height: 1.7;
-  color: rgba(255,255,255,0.4);
+.pb__card-desc {
+  font-size: clamp(14px, 1.3vw, 16px);
+  line-height: 1.8;
+  color: rgba(255,255,255,0.48);
   margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
 }
-.pb__row.pb--active .pb__row-desc {
-  max-height: 80px;
-  opacity: 1;
+
+.pb__card-foot {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.pb__card-stat-n {
+  font-family: 'Urbanist', sans-serif;
+  font-size: clamp(28px, 3.5vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: #1eb5a8;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.pb__card-stat-l {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.38);
 }
 
 /* Section fade-in */
 .pb__header,
-.pb__rows,
+.pb__stack,
 .pb__close {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.pb__rows  { transition-delay: 0.15s; }
+.pb__stack { transition-delay: 0.15s; }
 .pb__close { transition-delay: 0.3s; }
 
 .pb--revealed .pb__header,
-.pb--revealed .pb__rows,
+.pb--revealed .pb__stack,
 .pb--revealed .pb__close {
   opacity: 1;
   transform: none;
@@ -1280,9 +1310,12 @@ body {
 .pb__close {
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 28px;
   flex-wrap: wrap;
   padding-top: 40px;
+  margin-top: 40px;
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -1320,9 +1353,16 @@ body {
   color: #fff;
 }
 
-@media (max-width: 600px) {
-  .pb__rows { padding-left: 20px; }
-  .pb__row  { gap: 18px; }
+@media (max-width: 768px) {
+  .pb__card  { padding: 32px 28px; border-radius: 20px; }
+  .pb__card:nth-child(1) { top: 80px; }
+  .pb__card:nth-child(2) { top: 92px; }
+  .pb__card:nth-child(3) { top: 104px; }
+}
+
+@media (max-width: 480px) {
+  .pb__card { padding: 28px 22px; }
+  .pb__card-title { font-size: clamp(20px, 6vw, 26px); }
 }
 
 
