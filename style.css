@@ -1296,6 +1296,14 @@ body {
   margin: 0;
 }
 
+.pb__close-em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.15em;
+  color: #1eb5a8;
+}
+
 .pb__close-cta {
   font-size: 12px;
   letter-spacing: 0.08em;
