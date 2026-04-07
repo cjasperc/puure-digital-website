@@ -3434,7 +3434,8 @@ body {
   .nav__inner          { padding: 0 6px 0 14px; height: 52px; }
   .nav__links          { display: none; }
   .btn--nav            { display: none; }
-.nav__burger         { display: flex; }
+  .nav__burger         { display: flex; margin-left: auto; }
+  .nav__logo           { flex: 1; }
   .nav__mobile         { top: calc(12px + 52px + 8px); width: calc(100% - 28px); }
 
   /* Section padding */
