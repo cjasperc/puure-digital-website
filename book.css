@@ -128,6 +128,8 @@
   }
   .bk__form-inner {
     border-radius: 12px;
-    min-height: 600px;
+    /* Let GHL form_embed.js control the iframe height on small screens */
+    min-height: 0;
+    overflow: visible;
   }
 }

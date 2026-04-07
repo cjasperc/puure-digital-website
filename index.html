@@ -19,7 +19,7 @@
   <nav class="nav" id="nav">
     <div class="nav__inner">
       <a href="#" class="nav__logo">
-        <img src="assets/PUURE DIGITAL LOGO white and green.png" alt="Puure Digital" />
+        <img src="assets/PUURE DIGITAL LOGO white and green.png" alt="Puure Digital" fetchpriority="high" loading="eager" />
       </a>
       <div class="nav__links">
         <div class="nav__dropdown">
@@ -102,14 +102,14 @@
       </div>
 
       <!-- Story video carousel -->
-      <div class="hero__story" id="heroStory" aria-hidden="true">
+      <div class="hero__story" id="heroStory" role="region" aria-label="Client results videos">
         <div class="story__carousel" id="storyCarousel">
 
           <!-- Slide 0 — starts left -->
-          <div class="story__slide" data-slot="left">
+          <div class="story__slide" data-slot="left" aria-hidden="true">
             <div class="story__phone">
               <div class="story__progress"><div class="story__progress-track"><div class="story__progress-fill"></div></div></div>
-              <video class="story__video" muted playsinline loop>
+              <video class="story__video" muted playsinline loop preload="none" aria-label="Apex Flex client results video">
                 <source src="images - videos/compressed videos/APEX FLEX (font change).mp4" type="video/mp4">
               </video>
               <div class="story__overlay" aria-hidden="true"></div>
@@ -121,7 +121,7 @@
           <div class="story__slide" data-slot="center">
             <div class="story__phone">
               <div class="story__progress"><div class="story__progress-track"><div class="story__progress-fill"></div></div></div>
-              <video class="story__video" autoplay muted playsinline>
+              <video class="story__video" autoplay muted playsinline aria-label="Gilson Bailey estate agent client results video">
                 <source src="images - videos/compressed videos/Coltishall Road, Buxton Norwich.mp4" type="video/mp4">
               </video>
               <div class="story__overlay" aria-hidden="true"></div>
@@ -130,10 +130,10 @@
           </div>
 
           <!-- Slide 2 — starts right -->
-          <div class="story__slide" data-slot="right">
+          <div class="story__slide" data-slot="right" aria-hidden="true">
             <div class="story__phone">
               <div class="story__progress"><div class="story__progress-track"><div class="story__progress-fill"></div></div></div>
-              <video class="story__video" muted playsinline loop>
+              <video class="story__video" muted playsinline loop preload="none" aria-label="FordFit fitness brand client results video">
                 <source src="images - videos/compressed videos/FordFit 2.mp4" type="video/mp4">
               </video>
               <div class="story__overlay" aria-hidden="true"></div>
@@ -169,27 +169,27 @@
     <div class="clients__mask">
       <div class="clients__track">
         <!-- Set 1 -->
-        <div class="client__logo"><img src="images - videos/Client logos/1.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/2.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/3.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/4.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/5.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/6.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/7.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/8.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/9.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/10.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/1.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/2.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/3.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/4.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/5.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/6.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/7.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/8.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/9.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/10.png" alt="Client" loading="lazy" /></div>
         <!-- Set 2 — duplicate for seamless loop -->
-        <div class="client__logo"><img src="images - videos/Client logos/1.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/2.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/3.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/4.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/5.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/6.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/7.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/8.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/9.png" alt="Client" /></div>
-        <div class="client__logo"><img src="images - videos/Client logos/10.png" alt="Client" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/1.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/2.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/3.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/4.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/5.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/6.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/7.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/8.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/9.png" alt="Client" loading="lazy" /></div>
+        <div class="client__logo"><img src="images - videos/Client logos/10.png" alt="Client" loading="lazy" /></div>
       </div>
     </div>
   </section>
@@ -451,7 +451,7 @@
         <!-- Video -->
         <div class="ai-feat__media">
           <div class="ai-feat__video-wrap">
-            <video class="ai-feat__video" autoplay muted playsinline loop>
+            <video class="ai-feat__video" autoplay muted playsinline loop aria-label="AI-enhanced video production example for Gilson Bailey">
               <source src="assets/gilsonbailey.ai.v2.mp4" type="video/mp4">
             </video>
             <div class="ai-feat__video-badge" aria-hidden="true">
@@ -479,7 +479,7 @@
         <!-- Feature 1: video left, content right -->
         <div class="result__feature">
           <div class="result__feature-media">
-            <video class="result__feature-video" autoplay muted playsinline loop>
+            <video class="result__feature-video" autoplay muted playsinline loop aria-label="Gilson Bailey estate agent client results showreel">
               <source src="images - videos/compressed videos/Coltishall Road, Buxton Norwich.mp4" type="video/mp4">
             </video>
             <div class="result__feature-overlay"></div>
@@ -508,7 +508,7 @@
         <!-- Feature 2: content left, video right -->
         <div class="result__feature result__feature--reverse">
           <div class="result__feature-media">
-            <video class="result__feature-video" autoplay muted playsinline loop>
+            <video class="result__feature-video" autoplay muted playsinline loop aria-label="FordFit fitness brand client results showreel">
               <source src="images - videos/compressed videos/FordFit 2.mp4" type="video/mp4">
             </video>
             <div class="result__feature-overlay"></div>
@@ -742,7 +742,7 @@
       <div class="team__card">
         <div class="team__card-glow"></div>
         <div class="team__avatar">
-          <img src="assets/DSC03294 (1)-2.jpg" alt="Max Hoy" />
+          <img src="assets/DSC03294 (1)-2.jpg" alt="Max Hoy" loading="lazy" />
         </div>
         <div class="team__card-body">
           <p class="team__role">Founder &amp; Creative Director</p>
@@ -758,7 +758,7 @@
       <div class="team__card">
         <div class="team__card-glow"></div>
         <div class="team__avatar">
-          <img src="assets/VNpNoEq9ERB1iFYMK5xbf38.avif" alt="Cassian Clarke" />
+          <img src="assets/VNpNoEq9ERB1iFYMK5xbf38.avif" alt="Cassian Clarke" loading="lazy" />
         </div>
         <div class="team__card-body">
           <p class="team__role">Marketing &amp; Strategy</p>

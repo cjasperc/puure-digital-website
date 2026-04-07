@@ -3503,7 +3503,7 @@ body {
 
   /* Results */
   .result__feature              { grid-template-columns: 1fr; min-height: auto; }
-  .result__feature-media        { min-height: 300px; }
+  .result__feature-media        { min-height: 220px; }
   .result__feature--reverse .result__feature-media  { grid-column: 1; grid-row: 1; }
   .result__feature--reverse .result__feature-content { grid-column: 1; grid-row: 2; }
   .result__feature-overlay      { background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%) !important; }
@@ -3671,6 +3671,12 @@ body {
   .problem__item       { padding: 22px 0; }
   .system__card        { padding: 28px 24px; }
   .service__card       { padding: 20px 16px; }
+
+  /* Pricing toggle — stack vertically on very small phones */
+  .pricing__toggle-wrap {
+    flex-direction: column;
+    gap: 12px;
+  }
 }
 
 /* ============================================================
@@ -3924,7 +3930,7 @@ body {
 /* ============================================================
    CUSTOM CURSOR
 ============================================================ */
-@media (pointer: fine) {
+@media (pointer: fine) and (hover: hover) {
   * { cursor: none !important; }
 
   /* Main teal circle */
