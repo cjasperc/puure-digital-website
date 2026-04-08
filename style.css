@@ -3588,7 +3588,7 @@ body {
     gap: 44px;
   }
   .hero__content       { flex: unset; width: 100%; }
-  .hero__h1            { font-size: clamp(42px, 11vw, 64px); line-height: 1.02; letter-spacing: -0.025em; }
+  .hero__h1            { font-size: clamp(46px, 11vw, 64px); line-height: 1.02; letter-spacing: -0.025em; }
   .hero__sub           { font-size: 14.5px; line-height: 1.7; max-width: 520px; }
   .hero__ctas          { flex-direction: row; flex-wrap: wrap; gap: 12px; }
   .hero__typewriter    { font-size: 1.1em; margin-left: 0.1em; }
@@ -3667,7 +3667,7 @@ body {
   /* Hero — compact on small phones */
   .hero                { padding-top: 76px; }
   .hero__container     { padding-top: 28px; padding-bottom: 36px; gap: 36px; }
-  .hero__h1            { font-size: clamp(38px, 11vw, 52px); line-height: 1.02; }
+  .hero__h1            { font-size: clamp(44px, 11vw, 56px); line-height: 1.02; }
   .hero__sub           { font-size: 13.5px; line-height: 1.68; }
   .hero__typewriter    { font-size: 1.08em; margin-left: 0.08em; }
   .hero__ctas          { width: 100%; flex-direction: column; gap: 10px; }
