@@ -243,60 +243,44 @@ body {
 .btn--primary {
   font-size: 14px;
   padding: 14px 30px;
-  color: var(--white);
+  color: rgba(255,255,255,0.92);
   border-radius: var(--r-pill);
-  border: none;
+  border: 1px solid rgba(30,181,168,0.45);
   letter-spacing: 0.04em;
   text-transform: none;
   font-weight: 600;
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background: transparent;
+  background: rgba(30,181,168,0.10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 0 rgba(30,181,168,0),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 4px 24px rgba(0,0,0,0.25);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s cubic-bezier(0.16,1,0.3,1),
+    color 0.2s ease;
 }
 
-/* Rotating light source — oversized square clipped by overflow:hidden */
+.btn--primary::before,
 .btn--primary::after {
-  content: '';
-  position: absolute;
-  width: 200%;
-  padding-bottom: 200%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  background: conic-gradient(
-    transparent 0deg,
-    transparent 240deg,
-    rgba(30,181,168,0.4) 270deg,
-    rgba(30,181,168,0.9) 290deg,
-    rgba(30,181,168,0.4) 310deg,
-    transparent 340deg
-  );
-  animation: spinBorder 4s linear infinite;
-  z-index: -2;
-}
-
-/* Solid inner fill — sits above rotating layer, leaving 2px border visible */
-.btn--primary::before {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border-radius: calc(var(--r-pill) - 2px);
-  background: var(--teal);
-  z-index: -1;
-  transition: background 0.2s;
-}
-
-.btn--primary:hover::before {
-  background: #22ccc0;
+  display: none;
 }
 
 .btn--primary:hover {
-  transform: scale(1.03);
-}
-
-@keyframes spinBorder {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  background: rgba(30,181,168,0.22);
+  border-color: rgba(30,181,168,0.75);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 24px rgba(30,181,168,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 8px 32px rgba(0,0,0,0.3);
 }
 
 .btn--ghost {
@@ -315,17 +299,21 @@ body {
   font-size: 13px;
   font-weight: 600;
   padding: 9px 20px;
-  background: var(--teal);
-  color: var(--white);
+  background: rgba(30,181,168,0.12);
+  color: rgba(255,255,255,0.88);
+  border: 1px solid rgba(30,181,168,0.40);
   border-radius: var(--r-pill);
   letter-spacing: -0.01em;
-  box-shadow: 0 0 14px rgba(30,181,168,0.22);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.2s ease, transform 0.2s cubic-bezier(0.16,1,0.3,1);
 }
 .btn--nav:hover {
-  background: var(--teal-mid);
-  box-shadow: 0 0 22px rgba(30,181,168,0.35);
-  transform: scale(1.02);
+  background: rgba(30,181,168,0.22);
+  border-color: rgba(30,181,168,0.70);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .btn--xl {
@@ -3453,13 +3441,17 @@ body {
   border-bottom: none !important;
   border-radius: 100px;
   padding: 14px 24px !important;
-  background: var(--teal) !important;
-  color: #fff !important;
+  background: rgba(30,181,168,0.12) !important;
+  color: rgba(255,255,255,0.88) !important;
+  border: 1px solid rgba(30,181,168,0.40) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font-weight: 600 !important;
   font-size: 14px !important;
 }
 .nav__mobile-cta:hover {
-  background: #18a09a !important;
+  background: rgba(30,181,168,0.22) !important;
+  border-color: rgba(30,181,168,0.70) !important;
   color: #fff !important;
 }
 
@@ -4222,8 +4214,9 @@ body {
   display: block;
   width: 100%;
   text-align: center;
-  background: var(--teal);
-  color: #fff;
+  background: rgba(30,181,168,0.12);
+  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(30,181,168,0.42);
   font-family: var(--font);
   font-size: 14px;
   font-weight: 600;
@@ -4231,12 +4224,14 @@ body {
   padding: 14px 24px;
   border-radius: 100px;
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 20px rgba(23, 85, 84, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.1s ease;
 }
 .mob-cta__btn:active {
   transform: scale(0.97);
-  background: #18a09a;
+  background: rgba(30,181,168,0.22);
   transition-duration: 0.08s;
 }
 
@@ -4331,8 +4326,7 @@ body {
   .hero__scroll-line       { animation: none; height: 56px; }
   .particle                { animation: none; opacity: 0; }
   .fade-up                 { transition: none; }
-  .btn--primary::after  { animation: none; }
-  .btn--primary::before { transition: none; }
+  .btn--primary { transition: none; }
   .pj__intro,
   .pj__card,
   .pj__resolve             { opacity: 1 !important; transform: none !important; }
