@@ -642,7 +642,7 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  background: linear-gradient(90deg, #1eb5a8 0%, #5ef0e8 55%, #a8fff9 100%);
+  background: linear-gradient(90deg, #0d5c54 0%, #1a8c80 50%, #0d5c54 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
