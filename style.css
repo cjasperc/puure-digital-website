@@ -342,11 +342,11 @@ body {
 }
 
 .nav__inner {
-  padding: 0 8px 0 20px;
-  height: 58px;
+  padding: 0 10px 0 20px;
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .nav__logo img { height: 26px; width: auto; display: block; }
@@ -354,14 +354,14 @@ body {
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 22px;
   flex: 1;
   justify-content: center;
 }
 .nav__links a {
   font-size: 13px;
   font-weight: 500;
-  color: var(--d-muted);
+  color: rgba(255,255,255,0.80);
   text-decoration: none;
   transition: color 0.25s;
   position: relative;
