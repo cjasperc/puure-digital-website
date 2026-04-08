@@ -617,7 +617,8 @@ body {
 .word-wrap {
   display: inline-block;
   overflow: hidden;
-  padding-bottom: 0.06em;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
   vertical-align: baseline;
   line-height: 1.06;
 }
@@ -650,7 +651,7 @@ body {
   vertical-align: bottom;
   opacity: 0;
   transition: opacity 0.4s ease;
-  transform: translateY(0.04em);
+  transform: translateY(0);
   margin-left: 0.15em;
   line-height: 1.0;
   position: relative;
