@@ -4124,6 +4124,41 @@ body {
 /* ── Back-to-top — minimum 44px touch height ── */
 .btt { min-height: 44px; }
 
+/* ── Back-to-top — mobile override ──
+   On mobile the pill sits behind the sticky CTA bar.
+   Replace with a compact icon button anchored bottom-right,
+   positioned above the CTA bar when it's visible.            */
+@media (max-width: 767px) {
+  .btt {
+    /* Reset pill styles → compact icon button bottom-right */
+    left: auto;
+    right: 16px;
+    bottom: 16px;
+    transform: translateY(80px);          /* hidden state — slides down off screen */
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+    background: rgba(13,13,13,0.9);
+    transition:
+      transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+      bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.3s ease,
+      border-color 0.25s,
+      color 0.25s;
+  }
+  .btt::after {
+    display: none;                         /* hide "Back to top" text label */
+  }
+  .btt--visible {
+    transform: translateY(0);
+  }
+  /* Bottom position is managed dynamically by JS (initBackToTop)
+     to clear the sticky CTA bar when it's visible.              */
+}
+
 /* ── FAB tooltips — suppress on touch (they never fire) ── */
 @media (hover: none) {
   .fab__tooltip { display: none; }

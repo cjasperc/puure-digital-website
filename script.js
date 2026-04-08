@@ -1079,13 +1079,30 @@ function initRoadmap() {
 }
 
 function initBackToTop() {
-  const btn = document.getElementById('btt');
+  const btn    = document.getElementById('btt');
+  const mobCta = document.getElementById('mobCta');
   if (!btn) return;
 
-  window.addEventListener('scroll', () => {
-    const nearBottom = (window.scrollY + window.innerHeight) >= (document.body.scrollHeight - 300);
-    btn.classList.toggle('btt--visible', nearBottom);
-  }, { passive: true });
+  function update() {
+    const isMob = window.innerWidth < 768;
+    // Desktop: show near page bottom. Mobile: show after 400px scroll.
+    const threshold = isMob ? 400 : document.body.scrollHeight - window.innerHeight - 300;
+    const show = isMob ? window.scrollY > threshold
+                       : (window.scrollY + window.innerHeight) >= (document.body.scrollHeight - 300);
+    btn.classList.toggle('btt--visible', show);
+
+    // On mobile, sit above the sticky CTA bar when it's visible
+    if (isMob && mobCta) {
+      const ctaUp = mobCta.classList.contains('mob-cta--visible');
+      btn.style.bottom = ctaUp
+        ? `calc(${mobCta.offsetHeight}px + 12px + env(safe-area-inset-bottom, 0px))`
+        : '16px';
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
 
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
