@@ -355,11 +355,14 @@ function initHeroStory() {
 }
 
 // ============================================================
-//  HERO CANVAS — Three.js flowing wave mesh
-//  Two render passes:
-//    1. Solid surface  — volumetric glow fill
-//    2. Wireframe mesh — visible grid lines
-//  Both use additive blending so dark areas are invisible.
+//  HERO CANVAS — flowing wave mesh (Canvas 2D)
+//
+//  Draws a perspective-projected grid of vertices displaced by
+//  stacked sine waves. Two passes:
+//    1. Filled triangles  — colour-graded glow surface
+//    2. Grid lines        — subtle teal wireframe overlay
+//  Uses globalCompositeOperation:'lighter' (additive blend) so
+//  only bright areas add to the frame; dark valleys disappear.
 // ============================================================
 function initHeroCanvas() {
   const canvas = document.getElementById('heroCanvas');
@@ -367,189 +370,215 @@ function initHeroCanvas() {
   if (window.innerWidth < 768) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // Require Three.js (loaded via CDN before this script)
-  if (typeof THREE === 'undefined') return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
-  // WebGL availability check
-  try {
-    const probe = document.createElement('canvas');
-    if (!probe.getContext('webgl') && !probe.getContext('experimental-webgl')) return;
-  } catch (e) { return; }
+  // ── Config ───────────────────────────────────────────────
+  const CFG = {
+    COLS:      38,    // grid columns
+    ROWS:      22,    // grid rows
+    SPEED:     0.28,  // overall wave speed
+    AMP:       0.18,  // wave amplitude (fraction of grid height)
+    // Brand teal colour stops (elevation 0→1)
+    COLOR_LOW:  [0,   0,   0  ],   // black — vanishes with additive blend
+    COLOR_MID:  [30,  181, 168],   // #1eb5a8 brand teal
+    COLOR_HIGH: [140, 255, 245],   // bright teal highlight at peaks
+  };
 
-  // ── Renderer ────────────────────────────────────────────
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha:           true,
-    antialias:       true,
-    powerPreference: 'low-power',
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0); // transparent background
-
-  // ── Scene & Camera ──────────────────────────────────────
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100);
-  // Elevated + offset left → looking down+right at the mesh
-  // Creates the dramatic perspective seen in the reference
-  camera.position.set(-1.2, 2.8, 7.5);
-  camera.lookAt(1.8, 0, 0);
-
-  // ── Shared vertex shader ─────────────────────────────────
-  // Multi-frequency sine stack displaces Z so the plane waves like fabric.
-  // Frequencies chosen so 2–3 full humps are visible across the mesh width.
-  const VERT = /* glsl */`
-    uniform float uTime;
-    varying vec2  vUv;
-    varying float vElevation;   // raw displacement (≈ -1 to +1)
-
-    void main() {
-      vUv = uv;
-      vec3 pos = position;
-
-      // Primary wave  — ~2.5 cycles across 10-unit width
-      float v  = sin(pos.x * 1.57 + uTime * 0.28) * cos(pos.y * 1.15 + uTime * 0.22) * 0.52;
-      // Diagonal secondary
-            v += sin((pos.x + pos.y) * 0.88 + uTime * 0.20) * 0.28;
-      // Cross-diagonal detail
-            v += cos(pos.x * 2.80 - pos.y * 1.50 - uTime * 0.36) * 0.14;
-      // Fine high-frequency ripple
-            v += sin(pos.x * 4.50 + pos.y * 0.80 + uTime * 0.52) * 0.06;
-
-      pos.z   += v * 0.85;   // overall amplitude
-      vElevation = v;
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-    }
-  `;
-
-  // ── Fragment shader — glow surface ───────────────────────
-  // Brand teal palette: black valleys → #1eb5a8 mid → near-white peaks.
-  // Additive blending means only bright areas contribute to the frame.
-  const FRAG_SURFACE = /* glsl */`
-    varying vec2  vUv;
-    varying float vElevation;
-
-    void main() {
-      // Normalise elevation to 0..1
-      float t = clamp((vElevation + 1.0) * 0.5, 0.0, 1.0);
-
-      // Three-stop colour ramp
-      vec3 dark   = vec3(0.00, 0.00, 0.00);        // black (invisible with additive)
-      vec3 mid    = vec3(0.118, 0.710, 0.659);      // #1eb5a8 brand teal
-      vec3 bright = vec3(0.60,  1.00,  0.96);       // near-white teal highlight
-
-      vec3 color  = mix(dark,  mid,   smoothstep(0.25, 0.65, t));
-           color  = mix(color, bright, smoothstep(0.65, 1.00, t));
-
-      // Vignette — fade at all four edges
-      float ex = smoothstep(0.0, 0.22, vUv.x) * smoothstep(1.0, 0.78, vUv.x);
-      float ey = smoothstep(0.0, 0.15, vUv.y) * smoothstep(1.0, 0.85, vUv.y);
-
-      // Alpha: only mid-to-high elevations visible; peaks glow brightest
-      float alpha = ex * ey * pow(max(t - 0.2, 0.0), 1.4) * 0.85;
-
-      gl_FragColor = vec4(color, alpha);
-    }
-  `;
-
-  // ── Fragment shader — wireframe grid lines ───────────────
-  // Same colour ramp, slightly lower alpha so lines don't overpower the fill.
-  const FRAG_WIRE = /* glsl */`
-    varying vec2  vUv;
-    varying float vElevation;
-
-    void main() {
-      float t = clamp((vElevation + 1.0) * 0.5, 0.0, 1.0);
-
-      vec3 dark   = vec3(0.00, 0.00, 0.00);
-      vec3 mid    = vec3(0.118, 0.710, 0.659);
-      vec3 bright = vec3(0.60,  1.00,  0.96);
-
-      vec3 color  = mix(dark,  mid,   smoothstep(0.25, 0.65, t));
-           color  = mix(color, bright, smoothstep(0.65, 1.00, t));
-
-      float ex = smoothstep(0.0, 0.22, vUv.x) * smoothstep(1.0, 0.78, vUv.x);
-      float ey = smoothstep(0.0, 0.15, vUv.y) * smoothstep(1.0, 0.85, vUv.y);
-
-      // Grid lines visible from valleys through peaks; brighter at peaks
-      float alpha = ex * ey * (t * 0.38 + 0.04);
-
-      gl_FragColor = vec4(color, alpha);
-    }
-  `;
-
-  // ── Geometry ─────────────────────────────────────────────
-  // 100×70 segments → smooth wave curves at good performance
-  const geo = new THREE.PlaneGeometry(10, 7, 100, 70);
-
-  // ── Materials ────────────────────────────────────────────
-  const commonUniforms = () => ({ uTime: { value: 0 } });
-
-  const matSurface = new THREE.ShaderMaterial({
-    transparent: true, depthWrite: false,
-    blending:    THREE.AdditiveBlending,
-    side:        THREE.DoubleSide,
-    uniforms:    commonUniforms(),
-    vertexShader: VERT, fragmentShader: FRAG_SURFACE,
-  });
-
-  const matWire = new THREE.ShaderMaterial({
-    transparent: true, depthWrite: false,
-    wireframe:   true,
-    blending:    THREE.AdditiveBlending,
-    uniforms:    commonUniforms(),
-    vertexShader: VERT, fragmentShader: FRAG_WIRE,
-  });
-
-  // ── Meshes ───────────────────────────────────────────────
-  // Both meshes share the same geometry so they deform identically.
-  // Rotate X to tilt plane away from viewer (fabric-like perspective).
-  // Offset right so the wave occupies the right portion of hero.
-  const surface = new THREE.Mesh(geo, matSurface);
-  const wire    = new THREE.Mesh(geo, matWire);
-  [surface, wire].forEach(m => {
-    m.rotation.x  = -0.38;
-    m.position.set(2.2, -0.4, 0);
-  });
-  scene.add(surface, wire);
+  let W, H, pts = [], animId, t0 = null;
 
   // ── Resize ───────────────────────────────────────────────
   function resize() {
-    const w = canvas.offsetWidth  || window.innerWidth;
-    const h = canvas.offsetHeight || Math.round(window.innerHeight * 0.85);
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
+    W = canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth  || 900;
+    H = canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight || 700;
+    buildGrid();
   }
 
-  // ── Pause when hero is off screen ────────────────────────
+  // ── Build flat grid of (col, row) control points ─────────
+  function buildGrid() {
+    pts = [];
+    for (let r = 0; r <= CFG.ROWS; r++) {
+      pts.push([]);
+      for (let c = 0; c <= CFG.COLS; c++) {
+        pts[r].push({ c, r });
+      }
+    }
+  }
+
+  // ── Wave displacement for a grid point ───────────────────
+  // Returns elevation in range −1..+1.
+  function elevation(c, r, t) {
+    const nx = c / CFG.COLS;   // 0..1
+    const ny = r / CFG.ROWS;
+    // Multi-frequency stacked sines for organic, non-repeating motion
+    let v  = Math.sin(nx * 6.28 + t * CFG.SPEED)         * Math.cos(ny * 4.71 + t * CFG.SPEED * 0.8) * 0.50;
+        v += Math.sin((nx + ny) * 5.50 + t * CFG.SPEED * 0.7)                                         * 0.26;
+        v += Math.cos(nx * 11.0 - ny * 6.0 - t * CFG.SPEED * 1.3)                                     * 0.13;
+        v += Math.sin(nx * 18.0 + ny * 3.0 + t * CFG.SPEED * 1.9)                                     * 0.06;
+    return v;  // ≈ −1..+1
+  }
+
+  // ── Map elevation to RGBA colour string ──────────────────
+  function elevColor(ev, alpha) {
+    const t = Math.max(0, Math.min(1, (ev + 1) * 0.5));  // 0..1
+    let r, g, b;
+    if (t < 0.45) {
+      // black → teal
+      const s = t / 0.45;
+      r = Math.round(CFG.COLOR_LOW[0] + (CFG.COLOR_MID[0] - CFG.COLOR_LOW[0]) * s);
+      g = Math.round(CFG.COLOR_LOW[1] + (CFG.COLOR_MID[1] - CFG.COLOR_LOW[1]) * s);
+      b = Math.round(CFG.COLOR_LOW[2] + (CFG.COLOR_MID[2] - CFG.COLOR_LOW[2]) * s);
+    } else {
+      // teal → bright highlight
+      const s = (t - 0.45) / 0.55;
+      r = Math.round(CFG.COLOR_MID[0] + (CFG.COLOR_HIGH[0] - CFG.COLOR_MID[0]) * s);
+      g = Math.round(CFG.COLOR_MID[1] + (CFG.COLOR_HIGH[1] - CFG.COLOR_MID[1]) * s);
+      b = Math.round(CFG.COLOR_MID[2] + (CFG.COLOR_HIGH[2] - CFG.COLOR_MID[2]) * s);
+    }
+    return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
+  }
+
+  // ── Project grid point to screen space ───────────────────
+  // Perspective tilt: grid is drawn angled away in Y (like the reference photo).
+  // The right side is pushed further back, creating a dramatic 3D perspective.
+  function project(c, r, ev) {
+    const nx = c / CFG.COLS;
+    const ny = r / CFG.ROWS;
+
+    // World position — offset right, tilt in Y
+    const wx = nx * W * 0.75 + W * 0.28;
+    // Perspective compression: far end (right) is higher and narrower
+    const perspY = ny + nx * 0.35;   // right columns shift upward
+    const perspScale = 1 - nx * 0.25; // right side compressed vertically
+
+    const wy = (perspY * H * 0.75 + H * 0.06) + ev * H * CFG.AMP * perspScale;
+
+    return [wx, wy];
+  }
+
+  // ── Main draw ────────────────────────────────────────────
+  function draw(timestamp) {
+    if (t0 === null) t0 = timestamp;
+    const t = (timestamp - t0) * 0.001;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Pre-compute all projected vertices + elevations
+    const verts = [];
+    for (let r = 0; r <= CFG.ROWS; r++) {
+      verts.push([]);
+      for (let c = 0; c <= CFG.COLS; c++) {
+        const ev = elevation(c, r, t);
+        verts[r].push({ xy: project(c, r, ev), ev });
+      }
+    }
+
+    // ── Pass 1: filled triangles (additive blend) ──────────
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (let r = 0; r < CFG.ROWS; r++) {
+      for (let c = 0; c < CFG.COLS; c++) {
+        const v00 = verts[r    ][c    ];
+        const v10 = verts[r    ][c + 1];
+        const v01 = verts[r + 1][c    ];
+        const v11 = verts[r + 1][c + 1];
+
+        // Edge vignette — fade at left/right/top/bottom borders
+        const edgeX = Math.min(c / 4, (CFG.COLS - c) / 5, 1);
+        const edgeY = Math.min(r / 3, (CFG.ROWS - r) / 4, 1);
+        const edge  = edgeX * edgeY;
+
+        // Average elevation of quad
+        const avgEv = (v00.ev + v10.ev + v01.ev + v11.ev) * 0.25;
+        // Only show mid-to-high elevation faces (valleys vanish with additive)
+        const alpha = Math.max(0, avgEv * 0.4 + 0.05) * edge;
+
+        if (alpha < 0.008) continue;
+
+        const col = elevColor(avgEv, alpha);
+
+        // Upper-left triangle
+        ctx.beginPath();
+        ctx.moveTo(...v00.xy);
+        ctx.lineTo(...v10.xy);
+        ctx.lineTo(...v01.xy);
+        ctx.closePath();
+        ctx.fillStyle = col;
+        ctx.fill();
+
+        // Lower-right triangle
+        ctx.beginPath();
+        ctx.moveTo(...v10.xy);
+        ctx.lineTo(...v11.xy);
+        ctx.lineTo(...v01.xy);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    ctx.restore();
+
+    // ── Pass 2: wireframe grid lines ───────────────────────
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineWidth = 0.7;
+
+    for (let r = 0; r <= CFG.ROWS; r++) {
+      for (let c = 0; c <= CFG.COLS; c++) {
+        const v = verts[r][c];
+        const edgeX = Math.min(c / 3, (CFG.COLS - c) / 4, 1);
+        const edgeY = Math.min(r / 2, (CFG.ROWS - r) / 3, 1);
+        const edge  = edgeX * edgeY;
+        const elev  = v.ev;
+        // Lines brighten at peaks, very faint in valleys
+        const alpha = Math.max(0, elev * 0.18 + 0.04) * edge;
+
+        if (c < CFG.COLS) {
+          const vr = verts[r][c + 1];
+          ctx.beginPath();
+          ctx.moveTo(...v.xy);
+          ctx.lineTo(...vr.xy);
+          ctx.strokeStyle = elevColor(elev, alpha);
+          ctx.stroke();
+        }
+        if (r < CFG.ROWS) {
+          const vd = verts[r + 1][c];
+          ctx.beginPath();
+          ctx.moveTo(...v.xy);
+          ctx.lineTo(...vd.xy);
+          ctx.strokeStyle = elevColor(elev, alpha * 0.7);
+          ctx.stroke();
+        }
+      }
+    }
+
+    ctx.restore();
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  // ── Pause when off-screen ────────────────────────────────
   let visible = true;
-  new IntersectionObserver(e => { visible = e[0].isIntersecting; }, { threshold: 0 })
-    .observe(canvas);
-
-  // ── Animation loop ───────────────────────────────────────
-  function tick(t) {
-    requestAnimationFrame(tick);
-    if (!visible) return;
-    const time = t * 0.001;
-    matSurface.uniforms.uTime.value = time;
-    matWire.uniforms.uTime.value    = time;
-    renderer.render(scene, camera);
-  }
+  new IntersectionObserver(e => {
+    visible = e[0].isIntersecting;
+    if (visible && !animId) animId = requestAnimationFrame(draw);
+    if (!visible) { cancelAnimationFrame(animId); animId = null; }
+  }, { threshold: 0 }).observe(canvas);
 
   // ── Debounced resize ─────────────────────────────────────
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 150);
+    resizeTimer = setTimeout(() => { resize(); }, 200);
   }, { passive: true });
 
   resize();
 
-  // Fade canvas in after hero text sequence begins
-  gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 3.0, delay: 0.8, ease: 'power2.inOut' });
+  // Fade in after hero text starts animating
+  gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 2.5, delay: 0.8, ease: 'power2.inOut' });
 
-  requestAnimationFrame(tick);
+  animId = requestAnimationFrame(draw);
 }
 
 // ============================================================
