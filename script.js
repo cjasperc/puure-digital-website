@@ -83,21 +83,6 @@ function splitHeadlineWords(el) {
       if (node.classList && node.classList.contains('hero__typewriter')) {
         // Typewriter span — append directly, no word-wrap clip
         fragment.appendChild(node.cloneNode(true));
-      } else if (node.classList && node.classList.contains('hero__line2')) {
-        // Gradient line wrapper — recurse inside so words clip correctly
-        // but preserve the parent span so gradient CSS still applies
-        const lineSpan = document.createElement('span');
-        lineSpan.className = 'hero__line2';
-        const innerFrag = document.createDocumentFragment();
-        // Temporarily process children into innerFrag
-        const savedFrag = fragment;
-        [...node.childNodes].forEach(child => processNode(child));
-        // Move newly added nodes into lineSpan
-        while (fragment.lastChild) {
-          lineSpan.insertBefore(fragment.lastChild, lineSpan.firstChild);
-        }
-        savedFrag.appendChild(lineSpan);
-        // Restore — fragment is same object, just re-assign alias
       } else {
         // Treat entire inline element (em, strong, etc.) as one word unit
         const wrap = document.createElement('span');
