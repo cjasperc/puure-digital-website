@@ -3442,16 +3442,16 @@ body {
   margin: 10px 16px 0;
   text-align: center;
   border-bottom: none !important;
-  border-radius: 12px;
+  border-radius: 100px;
   padding: 14px 24px !important;
-  background: rgba(30,181,168,0.08) !important;
-  color: #1eb5a8 !important;
+  background: var(--teal) !important;
+  color: #fff !important;
   font-weight: 600 !important;
   font-size: 14px !important;
 }
 .nav__mobile-cta:hover {
-  background: rgba(30,181,168,0.14) !important;
-  color: var(--white) !important;
+  background: #18a09a !important;
+  color: #fff !important;
 }
 
 /* ============================================================
