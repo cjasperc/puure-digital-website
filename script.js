@@ -895,11 +895,15 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.ticker.lagSmoothing(0);
   lenis.on('scroll', ScrollTrigger.update);
   let lastScrollY = 0;
+  let menuOpenedAt = 0;
   const isMobile = () => window.innerWidth < 768;
+  const _origOpen = openMenu;
+  openMenu = function() { _origOpen(); menuOpenedAt = Date.now(); };
 
   lenis.on('scroll', ({ scroll }) => {
     nav.classList.toggle('scrolled', scroll > 10);
-    if (nav.classList.contains('nav--open')) closeMenu();
+    // Only close menu on scroll if it wasn't just opened (prevents tap+inertia race)
+    if (nav.classList.contains('nav--open') && Date.now() - menuOpenedAt > 400) closeMenu();
 
     // Auto-hide nav on scroll down, reveal on scroll up (mobile only)
     if (isMobile()) {
