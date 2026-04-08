@@ -637,12 +637,24 @@ body {
   opacity: 1;
 }
 
+/* Second line of hero headline — teal gradient */
+.hero__line2 {
+  display: inline;
+  background: linear-gradient(90deg, #1eb5a8 0%, #5ef0e8 55%, #a8fff9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Typewriter cycling word */
 .hero__typewriter {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  color: var(--white);
+  background: linear-gradient(90deg, #1eb5a8 0%, #5ef0e8 55%, #a8fff9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   display: inline-block;
   vertical-align: bottom;
   opacity: 0;
@@ -653,7 +665,6 @@ body {
   position: relative;
   white-space: nowrap;
   font-size: 1.18em;
-  text-shadow: none;
 }
 .hero__typewriter::after {
   content: '|';
