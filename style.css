@@ -348,7 +348,7 @@ body {
   gap: 12px;
 }
 
-.nav__logo img { height: 26px; width: auto; display: block; }
+.nav__logo img { height: 20px; width: auto; display: block; }
 
 .nav__links {
   display: flex;
