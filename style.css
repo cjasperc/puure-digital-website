@@ -3977,8 +3977,8 @@ body {
   transform: translateY(-50%) translateX(0);
 }
 
-@media (max-width: 600px) {
-  .fab { bottom: 24px; right: 20px; }
+@media (max-width: 767px) {
+  .fab { display: none; }
 }
 
 /* ============================================================
