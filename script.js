@@ -355,7 +355,11 @@ function initHeroStory() {
 }
 
 // ============================================================
-//  HERO CANVAS — abstract drifting network field
+//  HERO CANVAS — Three.js flowing wave mesh
+//  Two render passes:
+//    1. Solid surface  — volumetric glow fill
+//    2. Wireframe mesh — visible grid lines
+//  Both use additive blending so dark areas are invisible.
 // ============================================================
 function initHeroCanvas() {
   const canvas = document.getElementById('heroCanvas');
@@ -363,126 +367,189 @@ function initHeroCanvas() {
   if (window.innerWidth < 768) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const ctx = canvas.getContext('2d');
-  let W, H, nodes = [], animId;
-  let mouseX = -9999, mouseY = -9999;
-  const COUNT = 32;
-  const CONNECT_DIST = 140;
-  const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
+  // Require Three.js (loaded via CDN before this script)
+  if (typeof THREE === 'undefined') return;
 
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
+  // WebGL availability check
+  try {
+    const probe = document.createElement('canvas');
+    if (!probe.getContext('webgl') && !probe.getContext('experimental-webgl')) return;
+  } catch (e) { return; }
 
-  function makeNode() {
-    return {
-      x:      W * 0.35 + Math.random() * W * 0.7,
-      y:      Math.random() * H,
-      vx:     (Math.random() - 0.5) * 0.22,
-      vy:     (Math.random() - 0.5) * 0.22,
-      r:      Math.random() * 1.6 + 0.5,
-      op:     Math.random() * 0.18 + 0.04,
-      isTeal: Math.random() < 0.22,
-    };
-  }
+  // ── Renderer ────────────────────────────────────────────
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha:           true,
+    antialias:       true,
+    powerPreference: 'low-power',
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0); // transparent background
 
-  let canvasVisible = true;
-  const visObs = new IntersectionObserver(entries => {
-    canvasVisible = entries[0].isIntersecting;
-    if (canvasVisible && !animId) tick();
-  }, { threshold: 0 });
-  visObs.observe(canvas);
+  // ── Scene & Camera ──────────────────────────────────────
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100);
+  // Elevated + offset left → looking down+right at the mesh
+  // Creates the dramatic perspective seen in the reference
+  camera.position.set(-1.2, 2.8, 7.5);
+  camera.lookAt(1.8, 0, 0);
 
-  function tick() {
-    if (!canvasVisible) { animId = null; return; }
-    ctx.clearRect(0, 0, W, H);
+  // ── Shared vertex shader ─────────────────────────────────
+  // Multi-frequency sine stack displaces Z so the plane waves like fabric.
+  // Frequencies chosen so 2–3 full humps are visible across the mesh width.
+  const VERT = /* glsl */`
+    uniform float uTime;
+    varying vec2  vUv;
+    varying float vElevation;   // raw displacement (≈ -1 to +1)
 
-    // Batch all connections into one path per opacity bucket — single stroke call
-    ctx.lineWidth = 0.5;
-    ctx.beginPath();
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx  = nodes[i].x - nodes[j].x;
-        const dy  = nodes[i].y - nodes[j].y;
-        const dSq = dx * dx + dy * dy;
-        if (dSq < CONNECT_DIST_SQ) {
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-        }
-      }
+    void main() {
+      vUv = uv;
+      vec3 pos = position;
+
+      // Primary wave  — ~2.5 cycles across 10-unit width
+      float v  = sin(pos.x * 1.57 + uTime * 0.28) * cos(pos.y * 1.15 + uTime * 0.22) * 0.52;
+      // Diagonal secondary
+            v += sin((pos.x + pos.y) * 0.88 + uTime * 0.20) * 0.28;
+      // Cross-diagonal detail
+            v += cos(pos.x * 2.80 - pos.y * 1.50 - uTime * 0.36) * 0.14;
+      // Fine high-frequency ripple
+            v += sin(pos.x * 4.50 + pos.y * 0.80 + uTime * 0.52) * 0.06;
+
+      pos.z   += v * 0.85;   // overall amplitude
+      vElevation = v;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     }
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-    ctx.stroke();
+  `;
 
-    // Nodes — update physics + draw
-    const REPEL_SQ = 110 * 110;
-    nodes.forEach(n => {
-      // Mouse repel — squared distance, sqrt only when inside range
-      const mdx = n.x - mouseX, mdy = n.y - mouseY;
-      const mdSq = mdx * mdx + mdy * mdy;
-      if (mdSq < REPEL_SQ && mdSq > 0) {
-        const md = Math.sqrt(mdSq);
-        const f  = (110 - md) / 110 * 0.009;
-        n.vx += (mdx / md) * f;
-        n.vy += (mdy / md) * f;
-      }
+  // ── Fragment shader — glow surface ───────────────────────
+  // Brand teal palette: black valleys → #1eb5a8 mid → near-white peaks.
+  // Additive blending means only bright areas contribute to the frame.
+  const FRAG_SURFACE = /* glsl */`
+    varying vec2  vUv;
+    varying float vElevation;
 
-      n.vx *= 0.985; n.vy *= 0.985;
-      n.x  += n.vx;  n.y  += n.vy;
+    void main() {
+      // Normalise elevation to 0..1
+      float t = clamp((vElevation + 1.0) * 0.5, 0.0, 1.0);
 
-      if (n.x > W + 20) n.x = -20;
-      if (n.x < -20)    n.x = W + 20;
-      if (n.y > H + 20) n.y = -20;
-      if (n.y < -20)    n.y = H + 20;
+      // Three-stop colour ramp
+      vec3 dark   = vec3(0.00, 0.00, 0.00);        // black (invisible with additive)
+      vec3 mid    = vec3(0.118, 0.710, 0.659);      // #1eb5a8 brand teal
+      vec3 bright = vec3(0.60,  1.00,  0.96);       // near-white teal highlight
 
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = n.isTeal
-        ? `rgba(23,166,163,${n.op * 1.4})`
-        : `rgba(255,255,255,${n.op})`;
-      ctx.fill();
-    });
+      vec3 color  = mix(dark,  mid,   smoothstep(0.25, 0.65, t));
+           color  = mix(color, bright, smoothstep(0.65, 1.00, t));
 
-    animId = requestAnimationFrame(tick);
+      // Vignette — fade at all four edges
+      float ex = smoothstep(0.0, 0.22, vUv.x) * smoothstep(1.0, 0.78, vUv.x);
+      float ey = smoothstep(0.0, 0.15, vUv.y) * smoothstep(1.0, 0.85, vUv.y);
+
+      // Alpha: only mid-to-high elevations visible; peaks glow brightest
+      float alpha = ex * ey * pow(max(t - 0.2, 0.0), 1.4) * 0.85;
+
+      gl_FragColor = vec4(color, alpha);
+    }
+  `;
+
+  // ── Fragment shader — wireframe grid lines ───────────────
+  // Same colour ramp, slightly lower alpha so lines don't overpower the fill.
+  const FRAG_WIRE = /* glsl */`
+    varying vec2  vUv;
+    varying float vElevation;
+
+    void main() {
+      float t = clamp((vElevation + 1.0) * 0.5, 0.0, 1.0);
+
+      vec3 dark   = vec3(0.00, 0.00, 0.00);
+      vec3 mid    = vec3(0.118, 0.710, 0.659);
+      vec3 bright = vec3(0.60,  1.00,  0.96);
+
+      vec3 color  = mix(dark,  mid,   smoothstep(0.25, 0.65, t));
+           color  = mix(color, bright, smoothstep(0.65, 1.00, t));
+
+      float ex = smoothstep(0.0, 0.22, vUv.x) * smoothstep(1.0, 0.78, vUv.x);
+      float ey = smoothstep(0.0, 0.15, vUv.y) * smoothstep(1.0, 0.85, vUv.y);
+
+      // Grid lines visible from valleys through peaks; brighter at peaks
+      float alpha = ex * ey * (t * 0.38 + 0.04);
+
+      gl_FragColor = vec4(color, alpha);
+    }
+  `;
+
+  // ── Geometry ─────────────────────────────────────────────
+  // 100×70 segments → smooth wave curves at good performance
+  const geo = new THREE.PlaneGeometry(10, 7, 100, 70);
+
+  // ── Materials ────────────────────────────────────────────
+  const commonUniforms = () => ({ uTime: { value: 0 } });
+
+  const matSurface = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false,
+    blending:    THREE.AdditiveBlending,
+    side:        THREE.DoubleSide,
+    uniforms:    commonUniforms(),
+    vertexShader: VERT, fragmentShader: FRAG_SURFACE,
+  });
+
+  const matWire = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false,
+    wireframe:   true,
+    blending:    THREE.AdditiveBlending,
+    uniforms:    commonUniforms(),
+    vertexShader: VERT, fragmentShader: FRAG_WIRE,
+  });
+
+  // ── Meshes ───────────────────────────────────────────────
+  // Both meshes share the same geometry so they deform identically.
+  // Rotate X to tilt plane away from viewer (fabric-like perspective).
+  // Offset right so the wave occupies the right portion of hero.
+  const surface = new THREE.Mesh(geo, matSurface);
+  const wire    = new THREE.Mesh(geo, matWire);
+  [surface, wire].forEach(m => {
+    m.rotation.x  = -0.38;
+    m.position.set(2.2, -0.4, 0);
+  });
+  scene.add(surface, wire);
+
+  // ── Resize ───────────────────────────────────────────────
+  function resize() {
+    const w = canvas.offsetWidth  || window.innerWidth;
+    const h = canvas.offsetHeight || Math.round(window.innerHeight * 0.85);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
   }
 
-  // Track mouse — throttled via rAF
-  const hero = canvas.closest('.hero');
-  if (hero) {
-    let mousePending = false;
-    hero.addEventListener('mousemove', e => {
-      if (mousePending) return;
-      mousePending = true;
-      requestAnimationFrame(() => {
-        const rect = canvas.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
-        mousePending = false;
-      });
-    }, { passive: true });
-    hero.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+  // ── Pause when hero is off screen ────────────────────────
+  let visible = true;
+  new IntersectionObserver(e => { visible = e[0].isIntersecting; }, { threshold: 0 })
+    .observe(canvas);
+
+  // ── Animation loop ───────────────────────────────────────
+  function tick(t) {
+    requestAnimationFrame(tick);
+    if (!visible) return;
+    const time = t * 0.001;
+    matSurface.uniforms.uTime.value = time;
+    matWire.uniforms.uTime.value    = time;
+    renderer.render(scene, camera);
   }
 
-  // Debounced resize
+  // ── Debounced resize ─────────────────────────────────────
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      cancelAnimationFrame(animId);
-      resize();
-      nodes = Array.from({ length: COUNT }, makeNode);
-      tick();
-    }, 150);
+    resizeTimer = setTimeout(resize, 150);
   }, { passive: true });
 
   resize();
-  nodes = Array.from({ length: COUNT }, makeNode);
 
-  // Fade the canvas in after the hero sequence starts
-  gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 2.5, delay: 1.0, ease: 'power2.inOut' });
+  // Fade canvas in after hero text sequence begins
+  gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 3.0, delay: 0.8, ease: 'power2.inOut' });
 
-  tick();
+  requestAnimationFrame(tick);
 }
 
 // ============================================================
