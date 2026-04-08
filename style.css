@@ -612,7 +612,7 @@ body {
   line-height: 0.82;
   letter-spacing: -0.03em;
   color: var(--white);
-  margin-bottom: 32px;
+  margin-bottom: 22px;
   max-width: 640px;
 }
 
@@ -3667,7 +3667,7 @@ body {
   /* Hero — compact on small phones */
   .hero                { padding-top: 76px; }
   .hero__container     { padding-top: 28px; padding-bottom: 36px; gap: 36px; }
-  .hero__h1            { font-size: clamp(44px, 11vw, 56px); line-height: 1.02; }
+  .hero__h1            { font-size: clamp(44px, 11vw, 56px); line-height: 1.02; margin-bottom: 16px; }
   .hero__sub           { font-size: 13.5px; line-height: 1.68; }
   .hero__typewriter    { font-size: 1.08em; margin-left: 0.08em; }
   .hero__ctas          { width: 100%; flex-direction: column; gap: 10px; }
