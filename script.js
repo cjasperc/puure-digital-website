@@ -22,6 +22,7 @@ const mobileNav = $('#navMobile');
 
 function openMenu() {
   nav.classList.add('nav--open');
+  nav.classList.remove('nav--hidden');
   burger.setAttribute('aria-expanded', 'true');
   burger.setAttribute('aria-label', 'Close menu');
   mobileNav.setAttribute('aria-hidden', 'false');
