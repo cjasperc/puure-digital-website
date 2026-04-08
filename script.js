@@ -894,9 +894,27 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
   lenis.on('scroll', ScrollTrigger.update);
+  let lastScrollY = 0;
+  const isMobile = () => window.innerWidth < 768;
+
   lenis.on('scroll', ({ scroll }) => {
     nav.classList.toggle('scrolled', scroll > 10);
     if (nav.classList.contains('nav--open')) closeMenu();
+
+    // Auto-hide nav on scroll down, reveal on scroll up (mobile only)
+    if (isMobile()) {
+      const delta = scroll - lastScrollY;
+      if (Math.abs(delta) > 4) {
+        if (delta > 0 && scroll > 120) {
+          nav.classList.add('nav--hidden');
+        } else {
+          nav.classList.remove('nav--hidden');
+        }
+      }
+      lastScrollY = scroll;
+    } else {
+      nav.classList.remove('nav--hidden');
+    }
   });
 
   // 2. Split headline + hero sequence
@@ -958,6 +976,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 16. Scroll-activated states for touch devices (replaces hover)
   initScrollActivation();
+
+  // 17. Mobile sticky CTA bar
+  initMobileCta();
 });
 
 function initScrollActivation() {
@@ -1238,5 +1259,44 @@ function initTestimonials() {
   nextBtn.addEventListener('click', () => { goTo(current + 1); startTimer(); });
   dots.forEach(dot => dot.addEventListener('click', () => { goTo(+dot.dataset.index); startTimer(); }));
 
+  // Touch swipe support for mobile
+  const stage = document.querySelector('.testi__stage');
+  if (stage) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    stage.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    stage.addEventListener('touchend', e => {
+      const dx = touchStartX - e.changedTouches[0].clientX;
+      const dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
+      // Only trigger on predominantly horizontal swipes (> 48px, not a vertical scroll)
+      if (Math.abs(dx) > 48 && Math.abs(dx) > dy * 1.5) {
+        dx > 0 ? goTo(current + 1) : goTo(current - 1);
+        startTimer();
+      }
+    }, { passive: true });
+  }
+
   startTimer();
+}
+
+// ============================================================
+//  MOBILE STICKY CTA BAR
+//  Slides up once hero scrolls out of view. Hidden on desktop.
+// ============================================================
+function initMobileCta() {
+  const bar = document.getElementById('mobCta');
+  if (!bar) return;
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  const observer = new IntersectionObserver(entries => {
+    const visible = !entries[0].isIntersecting;
+    bar.classList.toggle('mob-cta--visible', visible);
+    bar.setAttribute('aria-hidden', String(!visible));
+  }, { threshold: 0.1 });
+
+  observer.observe(hero);
 }

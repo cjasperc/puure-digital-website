@@ -7,9 +7,23 @@
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return [...(ctx || document).querySelectorAll(sel)]; }
 
-  // ── 1. Nav scroll ────────────────────────────────────────
+  // ── 1. Nav scroll + auto-hide on mobile ──────────────────
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive: true });
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 40);
+    if (window.innerWidth < 768) {
+      const delta = y - lastY;
+      if (Math.abs(delta) > 4) {
+        if (delta > 0 && y > 120) nav.classList.add('nav--hidden');
+        else nav.classList.remove('nav--hidden');
+      }
+      lastY = y;
+    } else {
+      nav.classList.remove('nav--hidden');
+    }
+  }, { passive: true });
 
   // ── 2. Nav burger ────────────────────────────────────────
   const burger = document.getElementById('navBurger');
@@ -225,6 +239,19 @@
     card.style.transformStyle = 'preserve-3d';
     card.style.willChange = 'transform';
   });
+
+  // ── 13b. Mobile sticky CTA bar ───────────────────────────
+  (function () {
+    const bar  = document.getElementById('mobCta');
+    const hero = document.querySelector('.sv-hero');
+    if (!bar || !hero) return;
+    const obs = new IntersectionObserver(entries => {
+      const visible = !entries[0].isIntersecting;
+      bar.classList.toggle('mob-cta--visible', visible);
+      bar.setAttribute('aria-hidden', String(!visible));
+    }, { threshold: 0.1 });
+    obs.observe(hero);
+  })();
 
   // ── 13. Step number hover glow ───────────────────────────
   $$('.sv-step').forEach(step => {
