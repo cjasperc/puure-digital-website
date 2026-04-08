@@ -355,14 +355,7 @@ function initHeroStory() {
 }
 
 // ============================================================
-//  HERO CANVAS — flowing wave mesh (Canvas 2D)
-//
-//  Draws a perspective-projected grid of vertices displaced by
-//  stacked sine waves. Two passes:
-//    1. Filled triangles  — colour-graded glow surface
-//    2. Grid lines        — subtle teal wireframe overlay
-//  Uses globalCompositeOperation:'lighter' (additive blend) so
-//  only bright areas add to the frame; dark valleys disappear.
+//  HERO CANVAS — abstract drifting network field
 // ============================================================
 function initHeroCanvas() {
   const canvas = document.getElementById('heroCanvas');
@@ -371,214 +364,125 @@ function initHeroCanvas() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  let W, H, nodes = [], animId;
+  let mouseX = -9999, mouseY = -9999;
+  const COUNT = 32;
+  const CONNECT_DIST = 140;
+  const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
 
-  // ── Config ───────────────────────────────────────────────
-  const CFG = {
-    COLS:      38,    // grid columns
-    ROWS:      22,    // grid rows
-    SPEED:     0.28,  // overall wave speed
-    AMP:       0.18,  // wave amplitude (fraction of grid height)
-    // Brand teal colour stops (elevation 0→1)
-    COLOR_LOW:  [0,   0,   0  ],   // black — vanishes with additive blend
-    COLOR_MID:  [30,  181, 168],   // #1eb5a8 brand teal
-    COLOR_HIGH: [140, 255, 245],   // bright teal highlight at peaks
-  };
-
-  let W, H, pts = [], animId, t0 = null;
-
-  // ── Resize ───────────────────────────────────────────────
   function resize() {
-    W = canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth  || 900;
-    H = canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight || 700;
-    buildGrid();
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
   }
 
-  // ── Build flat grid of (col, row) control points ─────────
-  function buildGrid() {
-    pts = [];
-    for (let r = 0; r <= CFG.ROWS; r++) {
-      pts.push([]);
-      for (let c = 0; c <= CFG.COLS; c++) {
-        pts[r].push({ c, r });
-      }
-    }
+  function makeNode() {
+    return {
+      x:      W * 0.35 + Math.random() * W * 0.7,
+      y:      Math.random() * H,
+      vx:     (Math.random() - 0.5) * 0.22,
+      vy:     (Math.random() - 0.5) * 0.22,
+      r:      Math.random() * 1.6 + 0.5,
+      op:     Math.random() * 0.18 + 0.04,
+      isTeal: Math.random() < 0.22,
+    };
   }
 
-  // ── Wave displacement for a grid point ───────────────────
-  // Returns elevation in range −1..+1.
-  function elevation(c, r, t) {
-    const nx = c / CFG.COLS;   // 0..1
-    const ny = r / CFG.ROWS;
-    // Multi-frequency stacked sines for organic, non-repeating motion
-    let v  = Math.sin(nx * 6.28 + t * CFG.SPEED)         * Math.cos(ny * 4.71 + t * CFG.SPEED * 0.8) * 0.50;
-        v += Math.sin((nx + ny) * 5.50 + t * CFG.SPEED * 0.7)                                         * 0.26;
-        v += Math.cos(nx * 11.0 - ny * 6.0 - t * CFG.SPEED * 1.3)                                     * 0.13;
-        v += Math.sin(nx * 18.0 + ny * 3.0 + t * CFG.SPEED * 1.9)                                     * 0.06;
-    return v;  // ≈ −1..+1
-  }
+  let canvasVisible = true;
+  const visObs = new IntersectionObserver(entries => {
+    canvasVisible = entries[0].isIntersecting;
+    if (canvasVisible && !animId) tick();
+  }, { threshold: 0 });
+  visObs.observe(canvas);
 
-  // ── Map elevation to RGBA colour string ──────────────────
-  function elevColor(ev, alpha) {
-    const t = Math.max(0, Math.min(1, (ev + 1) * 0.5));  // 0..1
-    let r, g, b;
-    if (t < 0.45) {
-      // black → teal
-      const s = t / 0.45;
-      r = Math.round(CFG.COLOR_LOW[0] + (CFG.COLOR_MID[0] - CFG.COLOR_LOW[0]) * s);
-      g = Math.round(CFG.COLOR_LOW[1] + (CFG.COLOR_MID[1] - CFG.COLOR_LOW[1]) * s);
-      b = Math.round(CFG.COLOR_LOW[2] + (CFG.COLOR_MID[2] - CFG.COLOR_LOW[2]) * s);
-    } else {
-      // teal → bright highlight
-      const s = (t - 0.45) / 0.55;
-      r = Math.round(CFG.COLOR_MID[0] + (CFG.COLOR_HIGH[0] - CFG.COLOR_MID[0]) * s);
-      g = Math.round(CFG.COLOR_MID[1] + (CFG.COLOR_HIGH[1] - CFG.COLOR_MID[1]) * s);
-      b = Math.round(CFG.COLOR_MID[2] + (CFG.COLOR_HIGH[2] - CFG.COLOR_MID[2]) * s);
-    }
-    return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
-  }
-
-  // ── Project grid point to screen space ───────────────────
-  // Perspective tilt: grid is drawn angled away in Y (like the reference photo).
-  // The right side is pushed further back, creating a dramatic 3D perspective.
-  function project(c, r, ev) {
-    const nx = c / CFG.COLS;
-    const ny = r / CFG.ROWS;
-
-    // World position — offset right, tilt in Y
-    const wx = nx * W * 0.75 + W * 0.28;
-    // Perspective compression: far end (right) is higher and narrower
-    const perspY = ny + nx * 0.35;   // right columns shift upward
-    const perspScale = 1 - nx * 0.25; // right side compressed vertically
-
-    const wy = (perspY * H * 0.75 + H * 0.06) + ev * H * CFG.AMP * perspScale;
-
-    return [wx, wy];
-  }
-
-  // ── Main draw ────────────────────────────────────────────
-  function draw(timestamp) {
-    if (t0 === null) t0 = timestamp;
-    const t = (timestamp - t0) * 0.001;
-
+  function tick() {
+    if (!canvasVisible) { animId = null; return; }
     ctx.clearRect(0, 0, W, H);
 
-    // Pre-compute all projected vertices + elevations
-    const verts = [];
-    for (let r = 0; r <= CFG.ROWS; r++) {
-      verts.push([]);
-      for (let c = 0; c <= CFG.COLS; c++) {
-        const ev = elevation(c, r, t);
-        verts[r].push({ xy: project(c, r, ev), ev });
-      }
-    }
-
-    // ── Pass 1: filled triangles (additive blend) ──────────
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-
-    for (let r = 0; r < CFG.ROWS; r++) {
-      for (let c = 0; c < CFG.COLS; c++) {
-        const v00 = verts[r    ][c    ];
-        const v10 = verts[r    ][c + 1];
-        const v01 = verts[r + 1][c    ];
-        const v11 = verts[r + 1][c + 1];
-
-        // Edge vignette — fade at left/right/top/bottom borders
-        const edgeX = Math.min(c / 4, (CFG.COLS - c) / 5, 1);
-        const edgeY = Math.min(r / 3, (CFG.ROWS - r) / 4, 1);
-        const edge  = edgeX * edgeY;
-
-        // Average elevation of quad
-        const avgEv = (v00.ev + v10.ev + v01.ev + v11.ev) * 0.25;
-        // Only show mid-to-high elevation faces (valleys vanish with additive)
-        const alpha = Math.max(0, avgEv * 0.4 + 0.05) * edge;
-
-        if (alpha < 0.008) continue;
-
-        const col = elevColor(avgEv, alpha);
-
-        // Upper-left triangle
-        ctx.beginPath();
-        ctx.moveTo(...v00.xy);
-        ctx.lineTo(...v10.xy);
-        ctx.lineTo(...v01.xy);
-        ctx.closePath();
-        ctx.fillStyle = col;
-        ctx.fill();
-
-        // Lower-right triangle
-        ctx.beginPath();
-        ctx.moveTo(...v10.xy);
-        ctx.lineTo(...v11.xy);
-        ctx.lineTo(...v01.xy);
-        ctx.closePath();
-        ctx.fill();
-      }
-    }
-
-    ctx.restore();
-
-    // ── Pass 2: wireframe grid lines ───────────────────────
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.lineWidth = 0.7;
-
-    for (let r = 0; r <= CFG.ROWS; r++) {
-      for (let c = 0; c <= CFG.COLS; c++) {
-        const v = verts[r][c];
-        const edgeX = Math.min(c / 3, (CFG.COLS - c) / 4, 1);
-        const edgeY = Math.min(r / 2, (CFG.ROWS - r) / 3, 1);
-        const edge  = edgeX * edgeY;
-        const elev  = v.ev;
-        // Lines brighten at peaks, very faint in valleys
-        const alpha = Math.max(0, elev * 0.18 + 0.04) * edge;
-
-        if (c < CFG.COLS) {
-          const vr = verts[r][c + 1];
-          ctx.beginPath();
-          ctx.moveTo(...v.xy);
-          ctx.lineTo(...vr.xy);
-          ctx.strokeStyle = elevColor(elev, alpha);
-          ctx.stroke();
-        }
-        if (r < CFG.ROWS) {
-          const vd = verts[r + 1][c];
-          ctx.beginPath();
-          ctx.moveTo(...v.xy);
-          ctx.lineTo(...vd.xy);
-          ctx.strokeStyle = elevColor(elev, alpha * 0.7);
-          ctx.stroke();
+    // Batch all connections into one path per opacity bucket — single stroke call
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx  = nodes[i].x - nodes[j].x;
+        const dy  = nodes[i].y - nodes[j].y;
+        const dSq = dx * dx + dy * dy;
+        if (dSq < CONNECT_DIST_SQ) {
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
         }
       }
     }
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.stroke();
 
-    ctx.restore();
+    // Nodes — update physics + draw
+    const REPEL_SQ = 110 * 110;
+    nodes.forEach(n => {
+      // Mouse repel — squared distance, sqrt only when inside range
+      const mdx = n.x - mouseX, mdy = n.y - mouseY;
+      const mdSq = mdx * mdx + mdy * mdy;
+      if (mdSq < REPEL_SQ && mdSq > 0) {
+        const md = Math.sqrt(mdSq);
+        const f  = (110 - md) / 110 * 0.009;
+        n.vx += (mdx / md) * f;
+        n.vy += (mdy / md) * f;
+      }
 
-    animId = requestAnimationFrame(draw);
+      n.vx *= 0.985; n.vy *= 0.985;
+      n.x  += n.vx;  n.y  += n.vy;
+
+      if (n.x > W + 20) n.x = -20;
+      if (n.x < -20)    n.x = W + 20;
+      if (n.y > H + 20) n.y = -20;
+      if (n.y < -20)    n.y = H + 20;
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = n.isTeal
+        ? `rgba(23,166,163,${n.op * 1.4})`
+        : `rgba(255,255,255,${n.op})`;
+      ctx.fill();
+    });
+
+    animId = requestAnimationFrame(tick);
   }
 
-  // ── Pause when off-screen ────────────────────────────────
-  let visible = true;
-  new IntersectionObserver(e => {
-    visible = e[0].isIntersecting;
-    if (visible && !animId) animId = requestAnimationFrame(draw);
-    if (!visible) { cancelAnimationFrame(animId); animId = null; }
-  }, { threshold: 0 }).observe(canvas);
+  // Track mouse — throttled via rAF
+  const hero = canvas.closest('.hero');
+  if (hero) {
+    let mousePending = false;
+    hero.addEventListener('mousemove', e => {
+      if (mousePending) return;
+      mousePending = true;
+      requestAnimationFrame(() => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        mousePending = false;
+      });
+    }, { passive: true });
+    hero.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+  }
 
-  // ── Debounced resize ─────────────────────────────────────
+  // Debounced resize
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { resize(); }, 200);
+    resizeTimer = setTimeout(() => {
+      cancelAnimationFrame(animId);
+      resize();
+      nodes = Array.from({ length: COUNT }, makeNode);
+      tick();
+    }, 150);
   }, { passive: true });
 
   resize();
+  nodes = Array.from({ length: COUNT }, makeNode);
 
-  // Fade in after hero text starts animating
-  gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 2.5, delay: 0.8, ease: 'power2.inOut' });
+  // Fade the canvas in after the hero sequence starts
+  gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 2.5, delay: 1.0, ease: 'power2.inOut' });
 
-  animId = requestAnimationFrame(draw);
+  tick();
 }
 
 // ============================================================
