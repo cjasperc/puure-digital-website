@@ -3824,6 +3824,23 @@ body {
   transform: translateY(0);
 }
 
+/* ── Clip reveal — mobile section headings ── */
+@media (max-width: 767px) {
+  /* Ensure words start hidden until JS runs the reveal */
+  .section-h2 .word,
+  .section-label .word,
+  .pb__heading .word {
+    transform: translateY(105%);
+    opacity: 0;
+  }
+  .section-h2 .word.revealed,
+  .section-label .word.revealed,
+  .pb__heading .word.revealed {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
 /* ============================================================
    FLOATING ACTION BUTTON

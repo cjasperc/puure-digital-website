@@ -768,12 +768,52 @@ function initFAQ() {
 // ============================================================
 //  SCROLL-TRIGGERED FADE-UPS (non-hero elements)
 // ============================================================
+// ============================================================
+//  CLIP REVEAL — section headings slide up from a mask (mobile)
+// ============================================================
+function initClipReveal() {
+  // Only on mobile
+  if (window.innerWidth > 767) return;
+
+  const HEADING_SELECTORS = '.section-h2, .section-label, .pb__heading, .sv-hero__h1, .sv-included__h2, .sv-process__h2, .sv-cta__h2';
+  const HERO_IDS = new Set(['heroH1', 'problemH2']);
+
+  $$(HEADING_SELECTORS).forEach(el => {
+    if (HERO_IDS.has(el.id)) return;
+    // Skip if already split
+    if (el.querySelector('.word-wrap')) return;
+
+    splitHeadlineWords(el);
+
+    const words = $$('.word', el);
+    // Start hidden — the word-wrap CSS already clips translateY(105%)
+    // so nothing extra needed
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        words.forEach((w, i) => {
+          w.style.transitionDelay = `${i * 55}ms`;
+          w.classList.add('revealed');
+        });
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+
+    io.observe(el);
+  });
+}
+
 function initScrollFades() {
   // Hero elements are animated by sequence — exclude them
   const HERO_IDS = new Set(['heroEyebrow', 'heroH1', 'heroSub', 'heroCtas', 'heroStats', 'problemH2']);
 
+  const isMobileView = window.innerWidth <= 767;
+
+  // On mobile, section-h2 and section-label use clip reveal instead
   const SELECTORS = [
-    '.section-label', '.section-h2', '.section-sub',
+    ...(isMobileView ? [] : ['.section-label', '.section-h2']),
+    '.section-sub',
     '.trust__pills',
     '.service__card',
     '.faq__item',
@@ -937,8 +977,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. FAQ
   initFAQ();
 
-  // 5. Scroll fades
+  // 5. Scroll fades + clip reveal headings (mobile)
   initScrollFades();
+  initClipReveal();
 
   // 6. Marquee infinite guard
   initMarquee();
