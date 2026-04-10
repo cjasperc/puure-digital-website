@@ -718,6 +718,27 @@ function initResultsSection() {
 }
 
 // ============================================================
+//  RESULT FEATURE VIDEOS — play when scrolled into view
+// ============================================================
+function initResultVideos() {
+  const videos = $$('.result__feature-video');
+  if (!videos.length) return;
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const v = entry.target;
+      if (entry.isIntersecting) {
+        v.play().catch(() => {}); // catch autoplay policy errors silently
+      } else {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.25 });
+
+  videos.forEach(v => io.observe(v));
+}
+
+// ============================================================
 //  CTA + FOOTER — ambient reveal triggers
 // ============================================================
 function initCtaFooter() {
@@ -995,6 +1016,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 10. Results section
   initResultsSection();
+  initResultVideos();
 
   // 11. CTA + Footer ambient reveals
   initCtaFooter();
