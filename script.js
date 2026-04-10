@@ -327,6 +327,21 @@ function initHeroStory() {
   prevBtn?.addEventListener('click', () => { rotate(-1); resetAuto(); });
   nextBtn?.addEventListener('click', () => { rotate(1);  resetAuto(); });
 
+  // Touch swipe support for mobile
+  let swipeStartX = 0, swipeStartY = 0;
+  carousel.addEventListener('touchstart', e => {
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+  }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    const dx = swipeStartX - e.changedTouches[0].clientX;
+    const dy = Math.abs(swipeStartY - e.changedTouches[0].clientY);
+    if (Math.abs(dx) > 40 && Math.abs(dx) > dy * 1.4) {
+      dx > 0 ? rotate(1) : rotate(-1);
+      resetAuto();
+    }
+  }, { passive: true });
+
   // Pause while hovering over carousel or nav buttons
   story.addEventListener('mouseenter', () => { paused = true; });
   story.addEventListener('mouseleave', () => { paused = false; });
@@ -718,6 +733,158 @@ function initResultsSection() {
 }
 
 // ============================================================
+//  MAGNETIC BUTTONS — CTAs subtly attract the cursor
+// ============================================================
+function initMagneticButtons() {
+  // Fine pointer only (not touch)
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const magnetics = $$('.btn--primary, .btn--nav, .btn--xl')
+    .filter(btn => !btn.closest('.nav__mobile')); // exclude mobile nav
+
+  magnetics.forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width  / 2) * 0.28;
+      const y = (e.clientY - rect.top  - rect.height / 2) * 0.28;
+      gsap.to(btn, { x, y, duration: 0.35, ease: 'power2.out', overwrite: true });
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.35)', overwrite: true });
+    });
+  });
+}
+
+// ============================================================
+//  METRIC COUNTERS — numbers count up when entering viewport
+// ============================================================
+function initCounters() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  $$('.result__metric > span').forEach(el => {
+    const raw     = el.textContent.trim();
+    const prefix  = /^[£$€]/.test(raw) ? raw[0] : '';
+    const cleaned = raw.replace(/^[£$€]/, '');
+    const suffix  = cleaned.replace(/[\d.]+/, '');
+    const num     = parseFloat(cleaned);
+    if (isNaN(num)) return;
+
+    el.textContent = prefix + '0' + suffix;
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: num,
+          duration: 1.6,
+          ease: 'power2.out',
+          delay: 0.2,
+          onUpdate() { el.textContent = prefix + Math.round(obj.val) + suffix; },
+          onComplete() { el.textContent = raw; },
+        });
+      });
+    }, { threshold: 0.6 });
+    io.observe(el);
+  });
+}
+
+// ============================================================
+//  MEDIA SLIDE WIPE — cinematic mask reveal on result sections
+// ============================================================
+function initMediaReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      setTimeout(() => entry.target.classList.add('media-revealed'), 80);
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+
+  $$('.result__feature').forEach(f => io.observe(f));
+}
+
+// ============================================================
+//  HERO PARALLAX — background depth layers at different rates
+// ============================================================
+function initHeroParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.innerWidth < 768) return; // skip on mobile
+
+  const grid  = $('.hero__grid');
+  const glowT = $('.hero__bg-glow');
+  const glowB = $('.hero__bg-glow-bottom');
+  if (!grid && !glowT && !glowB) return;
+
+  let ticking = false;
+  const heroEl = $('.hero');
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = Math.min(window.scrollY, (heroEl?.offsetHeight || window.innerHeight) * 1.1);
+      if (grid)  grid.style.transform  = `translateY(${y * 0.22}px)`;
+      if (glowT) glowT.style.transform = `translateX(-50%) translateY(${y * 0.09}px)`;
+      if (glowB) glowB.style.transform = `translateX(-50%) translateY(${y * 0.32}px)`;
+      ticking = false;
+    });
+  }, { passive: true });
+}
+
+// ============================================================
+//  TILT CARDS — 3D perspective tilt on team cards (desktop only)
+// ============================================================
+function initTiltCards() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  $$('.team__card').forEach(card => {
+    let pending = false;
+    card.addEventListener('mousemove', e => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left)  / rect.width  - 0.5;
+        const y = (e.clientY - rect.top)   / rect.height - 0.5;
+        card.style.transform = `translateY(-6px) rotateX(${-y * 9}deg) rotateY(${x * 9}deg)`;
+        card.style.transition = 'transform 0.08s linear, border-color 0.3s';
+        pending = false;
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      pending = false;
+      card.style.transform = '';
+      card.style.transition = 'transform 0.65s cubic-bezier(0.16,1,0.3,1), border-color 0.3s';
+    });
+  });
+}
+
+// ============================================================
+//  BUTTON RIPPLE — tactile click feedback on primary CTAs
+// ============================================================
+function initButtonRipple() {
+  $$('.btn--primary, .btn--xl').forEach(btn => {
+    btn.addEventListener('pointerdown', e => {
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.4;
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top  - size / 2;
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  });
+}
+
+// ============================================================
 //  RESULT FEATURE VIDEOS — play when scrolled into view
 // ============================================================
 function initResultVideos() {
@@ -1017,6 +1184,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 10. Results section
   initResultsSection();
   initResultVideos();
+  initMediaReveal();
+  initCounters();
 
   // 11. CTA + Footer ambient reveals
   initCtaFooter();
@@ -1032,6 +1201,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 14. Custom cursor
   initCursor();
+  initMagneticButtons();
+  initTiltCards();
+  initButtonRipple();
+  initHeroParallax();
 
   // 16. Back to top
   initBackToTop();
@@ -1345,19 +1518,18 @@ function initTestimonials() {
   dots.forEach(dot => dot.addEventListener('click', () => { goTo(+dot.dataset.index); startTimer(); }));
 
   // Touch swipe support for mobile
-  const stage = document.querySelector('.testi__stage');
-  if (stage) {
+  const slider = document.getElementById('testiSlider');
+  if (slider) {
     let touchStartX = 0;
     let touchStartY = 0;
-    stage.addEventListener('touchstart', e => {
+    slider.addEventListener('touchstart', e => {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
-    stage.addEventListener('touchend', e => {
+    slider.addEventListener('touchend', e => {
       const dx = touchStartX - e.changedTouches[0].clientX;
       const dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
-      // Only trigger on predominantly horizontal swipes (> 48px, not a vertical scroll)
-      if (Math.abs(dx) > 48 && Math.abs(dx) > dy * 1.5) {
+      if (Math.abs(dx) > 40 && Math.abs(dx) > dy * 1.4) {
         dx > 0 ? goTo(current + 1) : goTo(current - 1);
         startTimer();
       }

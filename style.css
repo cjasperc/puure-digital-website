@@ -314,6 +314,19 @@ body {
   padding: 18px 44px;
 }
 
+/* Click ripple — injected by JS */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transform: scale(0);
+  animation: btnRipple 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+@keyframes btnRipple {
+  to { transform: scale(3); opacity: 0; }
+}
+
 /* ============================================================
    NAV
 ============================================================ */
@@ -643,10 +656,12 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 600;
-  background: linear-gradient(90deg, #0d5c54 0%, #1a8c80 50%, #0d5c54 100%);
+  background: linear-gradient(90deg, #0d5c54 0%, #1a8c80 30%, #2ac4b4 50%, #1a8c80 70%, #0d5c54 100%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: typewriterGrad 5s linear infinite;
   display: inline-block;
   vertical-align: 0.08em;
   opacity: 0;
@@ -672,6 +687,10 @@ body {
 @keyframes twCursor {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
+}
+@keyframes typewriterGrad {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
 /* em inside hero headline — with light-pass gloss */
@@ -804,6 +823,7 @@ body {
   width: 300px;
   aspect-ratio: 9 / 16;
   perspective: 900px;
+  touch-action: pan-y;
   perspective-origin: 50% 50%;
 }
 
@@ -2002,6 +2022,25 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+/* Slide-wipe reveal — dark mask that retracts on scroll entry */
+.result__feature-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--d-bg);
+  z-index: 4;
+  transform-origin: right center;
+  transform: scaleX(1);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.result__feature--reverse .result__feature-media::before {
+  transform-origin: left center;
+}
+.result__feature.media-revealed .result__feature-media::before {
+  transform: scaleX(0);
+}
 .result__feature-video {
   width: 100%;
   height: 100%;
@@ -2365,6 +2404,7 @@ body {
   margin: 72px auto 0;
   padding: 0 clamp(24px, 5vw, 60px);
   text-align: center;
+  touch-action: pan-y;
 }
 .testi__slides { position: relative; min-height: 220px; }
 .testi__slide {
@@ -2603,10 +2643,11 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
 }
 .team__card:hover {
-  transform: translateY(-8px);
   border-color: rgba(23,133,132,0.35);
 }
 .team__card-glow {
@@ -3649,12 +3690,12 @@ body {
   .result__feature-media        { min-height: 260px; }
   .result__feature-content      { padding: 28px 24px; }
 
-  /* Result metrics */
+  /* Result metrics — more impactful on mobile */
   .result__metrics     { gap: 0; }
-  .result__metric      { padding-right: 12px; }
-  .result__metric + .result__metric { padding-left: 12px; }
-  .result__metric span { font-size: clamp(15px, 4.5vw, 18px); }
-  .result__metric small { font-size: 10px; }
+  .result__metric      { padding-right: 16px; }
+  .result__metric + .result__metric { padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.08); }
+  .result__metric span { font-size: clamp(22px, 6vw, 28px); font-weight: 600; }
+  .result__metric small { font-size: 11px; line-height: 1.4; }
 
   /* Footer */
   .footer__links       { grid-template-columns: 1fr; gap: 28px; }
@@ -3679,7 +3720,7 @@ body {
   .hero                { padding-top: 76px; }
   .hero__container     { padding-top: 28px; padding-bottom: 36px; gap: 36px; }
   .hero__h1            { font-size: clamp(44px, 11vw, 56px); line-height: 1.02; margin-bottom: 16px; }
-  .hero__sub           { font-size: 13.5px; line-height: 1.68; }
+  .hero__sub           { font-size: 14.5px; line-height: 1.72; }
   .hero__typewriter    { font-size: 1.08em; margin-left: 0.08em; }
   .hero__ctas          { width: 100%; flex-direction: column; gap: 10px; }
   .hero__ctas .btn     { width: 100%; justify-content: center; text-align: center; }
