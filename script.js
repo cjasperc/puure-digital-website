@@ -543,48 +543,37 @@ function initProblemSection() {
   const section = document.getElementById('problem');
   if (!section) return;
 
-  const stack = section.querySelector('.pb__stack');
-  if (!stack) return;
-
-  // Section reveal on enter
+  // Section reveal on enter (header + bento wrapper + closing)
   const revealObs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
       section.classList.add('pb--revealed');
       revealObs.disconnect();
     }
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   revealObs.observe(section);
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     section.classList.add('pb--revealed');
+    section.querySelectorAll('.pb__bento-card').forEach(c => c.classList.add('pb--in'));
     return;
   }
 
-  const cards    = [...stack.querySelectorAll('.pb__card')];
-  // Must match CSS nth-child top values
-  const CARD_TOPS = [108, 136, 164];
+  // Staggered card reveal when bento grid enters viewport
+  const bento = section.querySelector('.pb__bento');
+  if (!bento) return;
 
-  function updateStack() {
-    const vh = window.innerHeight;
+  const cards = [...bento.querySelectorAll('.pb__bento-card')];
 
-    cards.forEach((card, i) => {
-      // Sum how much subsequent cards have slid on top of this one
-      let buried = 0;
-      for (let j = i + 1; j < cards.length; j++) {
-        const nextTop = cards[j].getBoundingClientRect().top;
-        const stickyTop = CARD_TOPS[j] ?? CARD_TOPS[CARD_TOPS.length - 1];
-        // 0 = next card just entering from below; 1 = fully stacked at sticky position
-        const progress = Math.max(0, Math.min(1, (vh - nextTop) / (vh - stickyTop)));
-        buried += progress;
-      }
+  const bentoObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('pb--in'), i * 130);
+      });
+      bentoObs.disconnect();
+    }
+  }, { threshold: 0.12 });
 
-      const scale = Math.max(0.88, 1 - buried * 0.04);
-      card.style.transform = `scale(${scale.toFixed(4)})`;
-    });
-  }
-
-  window.addEventListener('scroll', updateStack, { passive: true });
-  updateStack();
+  bentoObs.observe(bento);
 }
 
 // ============================================================
@@ -888,7 +877,7 @@ function initButtonRipple() {
 //  RESULT FEATURE VIDEOS — play when scrolled into view
 // ============================================================
 function initResultVideos() {
-  const videos = $$('.result__feature-video');
+  const videos = [...$$('.result__feature-video'), ...$$('.ai-feat__video')];
   if (!videos.length) return;
 
   const io = new IntersectionObserver(entries => {

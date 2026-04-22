@@ -132,12 +132,14 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
   <!-- ============================================================
     NAV
   ============================================================ -->
   <nav class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#" class="nav__logo">
+      <a href="/" class="nav__logo">
         <img src="assets/PUURE DIGITAL LOGO white and green.png" alt="Puure Digital" fetchpriority="high" loading="eager" />
       </a>
       <div class="nav__links">
@@ -180,6 +182,8 @@
   <!-- ============================================================
     HERO  · dark
   ============================================================ -->
+  <span id="main-content" aria-hidden="true" style="position:absolute;top:0;left:0;"></span>
+  <main>
   <section class="hero" id="top">
     <!-- Animation layers -->
     <div class="hero__sweep" aria-hidden="true"></div>
@@ -325,54 +329,45 @@
         <p class="pb__sub">Disconnected pages, slow follow up, and weak conversion paths quietly waste good traffic.</p>
       </div>
 
-      <!-- Card stack -->
-      <div class="pb__stack" id="pbStack">
+      <!-- Bento grid -->
+      <div class="pb__bento" id="pbBento">
 
-        <div class="pb__card">
-          <div class="pb__card-header">
-            <span class="pb__card-tag">Lead Nurture</span>
-            <span class="pb__card-counter">01 / 03</span>
-          </div>
-          <div class="pb__card-icon">
+        <!-- Hero card — spans both rows on desktop -->
+        <div class="pb__bento-card pb__bento-card--hero">
+          <span class="pb__bento-tag">Lead Nurture</span>
+          <span class="pb__bento-stat">80%</span>
+          <p class="pb__bento-stat-label">of leads are never followed up on</p>
+          <div class="pb__bento-divider"></div>
+          <h3 class="pb__bento-title">Leads Come In, Then Disappear</h3>
+          <p class="pb__bento-body">Without immediate follow-up and a nurture sequence in place, intent fades fast. Most businesses lose over 80% of inbound leads simply by waiting too long to respond — the opportunity gone before the day is over.</p>
+          <div class="pb__bento-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54z"/></svg>
           </div>
-          <h3 class="pb__card-title">Leads Come In, Then Disappear</h3>
-          <p class="pb__card-desc">Without immediate follow-up and a nurture sequence in place, intent fades fast. Most businesses lose over 80% of inbound leads simply by waiting too long to respond — the opportunity gone before the day is over.</p>
-          <div class="pb__card-foot">
-            <span class="pb__card-stat-n">80%</span>
-            <span class="pb__card-stat-l">of leads are never followed up on</span>
-          </div>
         </div>
 
-        <div class="pb__card">
-          <div class="pb__card-header">
-            <span class="pb__card-tag">Conversion</span>
-            <span class="pb__card-counter">02 / 03</span>
-          </div>
-          <div class="pb__card-icon">
+        <!-- Side card 1 -->
+        <div class="pb__bento-card pb__bento-card--side">
+          <span class="pb__bento-tag">Conversion</span>
+          <span class="pb__bento-stat">8s</span>
+          <p class="pb__bento-stat-label">average time before a visitor decides to leave</p>
+          <div class="pb__bento-divider"></div>
+          <h3 class="pb__bento-title">Clicks Do Not Turn Into Customers</h3>
+          <p class="pb__bento-body">Ad spend means nothing without a landing experience built to convert. Visitors leave when pages are slow, confusing or fail to build trust — and you are paying for traffic that never converts.</p>
+          <div class="pb__bento-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-7 1-3 7z"/></svg>
           </div>
-          <h3 class="pb__card-title">Clicks Do Not Turn Into Customers</h3>
-          <p class="pb__card-desc">Ad spend means nothing without a landing experience built to convert. Visitors leave when pages are slow, confusing or fail to build trust — and most make that decision in under 8 seconds. You are paying for traffic that never converts.</p>
-          <div class="pb__card-foot">
-            <span class="pb__card-stat-n">8s</span>
-            <span class="pb__card-stat-l">average time before a visitor decides to leave</span>
-          </div>
         </div>
 
-        <div class="pb__card">
-          <div class="pb__card-header">
-            <span class="pb__card-tag">Response Speed</span>
-            <span class="pb__card-counter">03 / 03</span>
-          </div>
-          <div class="pb__card-icon">
+        <!-- Side card 2 -->
+        <div class="pb__bento-card pb__bento-card--side">
+          <span class="pb__bento-tag">Response Speed</span>
+          <span class="pb__bento-stat">78%</span>
+          <p class="pb__bento-stat-label">of customers choose whoever responds first</p>
+          <div class="pb__bento-divider"></div>
+          <h3 class="pb__bento-title">Opportunities Go Elsewhere</h3>
+          <p class="pb__bento-body">In local service markets, speed wins the job. When your systems are not built for fast, consistent follow-up, qualified enquiries quietly book with someone else.</p>
+          <div class="pb__bento-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <h3 class="pb__card-title">Opportunities Go Elsewhere</h3>
-          <p class="pb__card-desc">In local service markets, speed wins the job. The business that responds first takes the booking — the one that waits loses it. When your systems are not built for fast, consistent follow-up, qualified enquiries quietly book with someone else.</p>
-          <div class="pb__card-foot">
-            <span class="pb__card-stat-n">78%</span>
-            <span class="pb__card-stat-l">of customers choose whoever responds first</span>
           </div>
         </div>
 
@@ -592,7 +587,7 @@
         <!-- Video -->
         <div class="ai-feat__media">
           <div class="ai-feat__video-wrap">
-            <video class="ai-feat__video" autoplay muted playsinline loop aria-label="AI-enhanced video production example for Gilson Bailey">
+            <video class="ai-feat__video" muted playsinline loop preload="none" aria-label="AI-enhanced video production example for Gilson Bailey">
               <source src="assets/gilsonbailey.ai.v2.mp4" type="video/mp4">
             </video>
             <div class="ai-feat__video-badge" aria-hidden="true">
@@ -627,7 +622,7 @@
           </div>
           <div class="result__feature-content">
             <span class="result__feature-label">Client results</span>
-            <h3 class="result__feature-h">Scaling An Estate Agent<br />With <em>Views</em></h3>
+            <h3 class="result__feature-h">Scaling An Estate Agent<br />With <em>Social Media</em></h3>
             <p class="result__feature-p">Gilson &amp; Bailey partnered with us to strengthen their digital presence and attract more property buyers in and around Norwich. Through cinematic house tour videos and strategic social media management, we helped them build brand awareness and generate consistent, qualified leads.</p>
             <div class="result__metrics">
               <div class="result__metric">
@@ -660,11 +655,11 @@
             <p class="result__feature-p">FordFit partnered with us to boost online engagement and attract new coaching clients. We created a UGC-based short form video strategy and produced a cinematic ad that captures Toby's training style, client transformations and the real results behind his coaching.</p>
             <div class="result__metrics">
               <div class="result__metric">
-                <span>16</span><!-- update with actual FordFit stat -->
+                <span>16</span>
                 <small>New clients signed</small>
               </div>
               <div class="result__metric">
-                <span>312%</span><!-- update with actual FordFit stat -->
+                <span>312%</span>
                 <small>Engagement increase</small>
               </div>
               <div class="result__metric">
@@ -780,7 +775,13 @@
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
         </svg>
-        <span class="testi__trust-stars">★★★★★</span>
+        <span class="testi__trust-stars" aria-label="5 stars">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
         <span class="testi__trust-score">5.0</span>
         <span class="testi__trust-sep">·</span>
         <span class="testi__trust-label">Based on Google Reviews</span>
@@ -792,7 +793,13 @@
       <div class="testi__slides">
 
         <div class="testi__slide is-active">
-          <span class="testi__slide-stars">★★★★★</span>
+          <span class="testi__slide-stars" aria-label="5 stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </span>
           <blockquote class="testi__slide-quote">"They took social media off our plate completely and our audience has never been more engaged."</blockquote>
           <div class="testi__slide-author">
             <span class="testi__slide-name">Tom Baird</span>
@@ -801,7 +808,13 @@
         </div>
 
         <div class="testi__slide">
-          <span class="testi__slide-stars">★★★★★</span>
+          <span class="testi__slide-stars" aria-label="5 stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </span>
           <blockquote class="testi__slide-quote">"Puure Digital are brilliant to work with. Professional, creative and results-focused — they've really helped boost our online presence. Highly recommend."</blockquote>
           <div class="testi__slide-author">
             <span class="testi__slide-name">Darren Gooch</span>
@@ -810,7 +823,13 @@
         </div>
 
         <div class="testi__slide">
-          <span class="testi__slide-stars">★★★★★</span>
+          <span class="testi__slide-stars" aria-label="5 stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </span>
           <blockquote class="testi__slide-quote">"My experience with Puure Digital has been nothing but first class. The attention to detail with Max's editing is incredible — the results speak for themselves."</blockquote>
           <div class="testi__slide-author">
             <span class="testi__slide-name">Toby Ford</span>
@@ -819,7 +838,13 @@
         </div>
 
         <div class="testi__slide">
-          <span class="testi__slide-stars">★★★★★</span>
+          <span class="testi__slide-stars" aria-label="5 stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </span>
           <blockquote class="testi__slide-quote">"Max and Cass were brilliant to work with. They created top quality video content and oversaw all of the ads as well as creating engaging landing pages."</blockquote>
           <div class="testi__slide-author">
             <span class="testi__slide-name">Karen Edwards</span>
@@ -828,7 +853,13 @@
         </div>
 
         <div class="testi__slide">
-          <span class="testi__slide-stars">★★★★★</span>
+          <span class="testi__slide-stars" aria-label="5 stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </span>
           <blockquote class="testi__slide-quote">"Helped produce some creative masterpieces for Diamond Winners — crystal clear communication, professional team and 10/10 finished products. Would recommend to anyone."</blockquote>
           <div class="testi__slide-author">
             <span class="testi__slide-name">Josef Want</span>
@@ -993,7 +1024,7 @@
         </div>
 
       </div>
-      <p class="pricing__footnote">All plans include a free strategy call before you commit. <a href="#cta">Book yours →</a></p>
+      <p class="pricing__footnote">All plans include a free strategy call before you commit. <a href="#book">Book yours →</a></p>
     </div>
   </section>
 
@@ -1110,6 +1141,8 @@
       <span class="cta__note">Free. No obligation. 30 minutes.</span>
     </div>
   </section>
+
+  </main>
 
   <!-- ============================================================
     FOOTER
